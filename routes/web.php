@@ -13,6 +13,8 @@
 
 Route::get('/', 'PagesController@index')->name('pages.index');
 
+Route::get('/users/{user}/home', 'UsersController@home')->name('users.home');
+
 Route::group(['middleware' => 'guest'], function () {
 
     /*GitHub登录*/
@@ -27,7 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*用户模块*/
     Route::get('/users/{user}', 'UsersController@index')->name('users.index');
-    Route::get('/users/{user}/home', 'UsersController@home')->name('users.home');
     Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
     Route::put('/users/{user}', 'UsersController@update')->name('users.update');
     Route::get('/users/{user}/message', 'UsersController@message')->name('users.message');

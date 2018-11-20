@@ -22,6 +22,7 @@ class UsersController extends Controller
 
     public function index(User $user)
     {
+        $this->authorize('update',$user);
         return view('user.index', compact('user'));
     }
 
@@ -32,22 +33,26 @@ class UsersController extends Controller
 
     public function message(User $user)
     {
+        $this->authorize('update',$user);
         return view('user.message', compact('user'));
     }
 
     public function edit(User $user)
     {
+        $this->authorize('update',$user);
         return view('user.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
+        $this->authorize('update',$user);
         $user->update($request->all());
         return [];
     }
 
     public function update_avatar(Request $request,User $user)
     {
+        $this->authorize('update',$user);
         $status = 0;
         $data = [];
         if ($request->method() == 'POST') {
