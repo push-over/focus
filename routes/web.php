@@ -13,17 +13,25 @@
 
 Route::get('/', 'PagesController@index')->name('pages.index');
 
-Route::group(['midlleware' => 'guest'], function () {
-    Route::get('/login', 'UsersController@login')->name('login');
+Route::group(['middleware' => 'guest'], function () {
 
+    /*GitHub登录*/
+    Route::get('/login', 'UsersController@login')->name('login');
     Route::get('/auth/{social}', 'AuthenticationController@getSocialRedirect');
     Route::get('/auth/{social}/callback', 'AuthenticationController@getSocialCallback');
 });
 
-Route::group(['midlleware' => 'auth'], function () {
-    Route::get('/logout', 'UsersController@logout')->name('logout');
-    Route::get('/users', 'UsersController@index')->name('users.index');
-    Route::get('/users/home', 'UsersController@home')->name('users.home');
-    Route::get('/users/message', 'UsersController@message')->name('users.message');
-    Route::get('/users/edit', 'UsersController@edit')->name('users.edit');
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::post('/logout', 'UsersController@logout')->name('logout');
+
+    /*用户模块*/
+    Route::get('/users/{user}', 'UsersController@index')->name('users.index');
+    Route::get('/users/{user}/home', 'UsersController@home')->name('users.home');
+    Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
+    Route::put('/users/{user}', 'UsersController@update')->name('users.update');
+    Route::get('/users/{user}/message', 'UsersController@message')->name('users.message');
+
+    Route::post('/update_avatar/{user}', 'UsersController@update_avatar')->name('update_avatar');
+
 });

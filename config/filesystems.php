@@ -63,6 +63,13 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'upload' => [
+            'driver' => 'local',
+            'root' => public_path('upload/avatar/'.date('Ymd')),
+            'visibility' => 'public',
+            'url' => env('APP_URL').'/uploads',
+        ]
+
     ],
 
 ];

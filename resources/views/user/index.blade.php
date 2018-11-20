@@ -5,25 +5,25 @@
 <div class="layui-container fly-marginTop fly-user-main">
     <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
         <li class="layui-nav-item">
-            <a href="{{ route('users.home') }}">
+            <a href="{{ route('users.home',['user'=> $user->id]) }}">
                 <i class="layui-icon">&#xe609;</i>
                 我的主页
             </a>
         </li>
         <li class="layui-nav-item layui-this">
-            <a href="{{ route('users.index') }}">
+            <a href="{{ route('users.index',['user'=> $user->id]) }}">
                 <i class="layui-icon">&#xe612;</i>
                 用户中心
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ route('users.edit') }}">
+            <a href="{{ route('users.edit',['user'=> $user->id]) }}">
                 <i class="layui-icon">&#xe620;</i>
                 基本设置
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="{{ route('users.message') }}">
+            <a href="{{ route('users.message',['user'=> $user->id]) }}">
                 <i class="layui-icon">&#xe611;</i>
                 我的消息
             </a>

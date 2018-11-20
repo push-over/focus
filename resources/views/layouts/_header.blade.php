@@ -19,13 +19,13 @@
 
             @guest
             <!-- 未登入的状态 -->
-            <li class="layui-nav-item">
-              <a class="iconfont icon-touxiang layui-hide-xs" href="{{ route('login') }}"></a>
+            <li  class="layui-nav-item">
+                <img width="34" src="/images/github.png" class="iconfont icon-touxiang layui-hide-xs" alt="">
+              {{-- <a class="iconfont icon-touxiang layui-hide-xs" href="{{ route('login') }}"></a> --}}
             </li>
             <li class="layui-nav-item">
               <a href="{{ route('login') }}">登入</a>
             </li>
-
 
             {{-- <li class="layui-nav-item layui-hide-xs">
               <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
@@ -39,11 +39,16 @@
                 <img src="{{ Auth::user()->avatar }}">
               </a>
               <dl class="layui-nav-child">
-                <dd><a href="{{ route('users.edit') }}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
-                <dd><a href="{{ route('users.message')}}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
-                <dd><a href="{{ route('users.home') }}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
+                <dd><a href="{{ route('users.edit',['users'=>Auth::user()->id]) }}"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                <dd><a href="{{ route('users.message',['users'=>Auth::user()->id])}}"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
+                <dd><a href="{{ route('users.home',['users'=>Auth::user()->id]) }}"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>
                 <hr style="margin: 5px 0;">
-                <dd><a href="{{ route('logout') }}" style="text-align: center;">退出</a></dd>
+                <dd><a href="{{ route('logout') }}" style="text-align: center;" onclick="event.preventDefault();
+                                             document.getElementById('logout-form').submit();">退出</a></dd>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  {{ csrf_field() }}
+                </form>
               </dl>
             </li>
             @endguest
