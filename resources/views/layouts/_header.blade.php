@@ -4,15 +4,14 @@
             <img src="/res/images/logo.png" alt="layui">
           </a>
           <ul class="layui-nav fly-nav layui-hide-xs">
+            @foreach($category as $c)
             <li class="layui-nav-item layui-this">
-              <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
+              <a href="/"><i class="iconfont icon-ui"></i>{{ $c->name}}</a>
             </li>
-            <li class="layui-nav-item">
+            {{-- <li class="layui-nav-item">
               <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-            </li>
-            <li class="layui-nav-item">
-              <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-            </li>
+            </li> --}}
+            @endforeach
           </ul>
 
           <ul class="layui-nav fly-nav-user">
