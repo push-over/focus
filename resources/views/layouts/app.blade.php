@@ -40,6 +40,7 @@
         }).extend({
             fly: 'index'
         }).use('fly');
+
     </script>
 
     @yield('ScriptAfterJs')

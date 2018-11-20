@@ -3,7 +3,7 @@
  @Name: 求解板块
 
  */
- 
+
 layui.define('fly', function(exports){
 
   var $ = layui.jquery;
@@ -12,12 +12,13 @@ layui.define('fly', function(exports){
   var laytpl = layui.laytpl;
   var form = layui.form;
   var fly = layui.fly;
-  
+
   var gather = {}, dom = {
     jieda: $('#jieda')
     ,content: $('#L_content')
     ,jiedaCount: $('#jiedaCount')
   };
+
 
   //监听专栏选择
   form.on('select(column)', function(obj){
@@ -64,7 +65,7 @@ layui.define('fly', function(exports){
       required[0].value = '';
       dom.jieda.find('.fly-none').remove();
       dom.jieda.append(html);
-      
+
       var count = dom.jiedaCount.text()|0;
       dom.jiedaCount.html(++count);
     });
@@ -87,7 +88,7 @@ layui.define('fly', function(exports){
         });
       });
     }
-    
+
     //设置置顶、状态
     ,set: function(div){
       var othis = $(this);
@@ -221,7 +222,7 @@ layui.define('fly', function(exports){
             layer.msg(res.msg);
           }
         });
-      });    
+      });
     }
   };
 

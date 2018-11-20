@@ -50,6 +50,7 @@
                 <div class="layui-form layui-form-pane layui-tab-item layui-show">
                     <div>
                         <input type="hidden" class="tag_token" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" class="user_id" name="id" value="{{ $user->id }}">
                         <div class="layui-form-item">
                             <label for="L_email" class="layui-form-label">邮箱</label>
                             <div class="layui-input-inline">
@@ -113,116 +114,23 @@
 @endsection
 
 @section('ScriptAfterJs')
+
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script>
-    layui.define(['laypage', 'fly', 'element', 'flow'], function (exports) {
-
-        var $ = layui.jquery;
-        var layer = layui.layer;
-        var util = layui.util;
-        var laytpl = layui.laytpl;
-        var form = layui.form;
-        var laypage = layui.laypage;
-        var fly = layui.fly;
-        var flow = layui.flow;
-        var element = layui.element;
-        var upload = layui.upload;
-
-        var gather = {},
-            dom = {
-                mine: $('#LAY_mine'),
-                mineview: $('.mine-view'),
-                minemsg: $('#LAY_minemsg'),
-                infobtn: $('#LAY_btninfo')
-            };
-
-
-        //显示当前tab
-        if(location.hash){
-            element.tabChange('user', location.hash.replace(/^#/, ''));
-        }
-
-        element.on('tab(user)', function(){
-            var othis = $(this), layid = othis.attr('lay-id');
-            if(layid){
-            location.hash = layid;
-            }
-        });
-
-        var tag_token = $(".tag_token").val();
-        //普通图片上传
-        var uploadInst = upload.render({
-            elem: '.upload-img',
-            type: 'images',
-            exts: 'jpg|png|gif', //设置一些后缀，用于演示前端验证和后端的验证
-            url: '/update_avatar/'+'{{ Auth::user()->id }}',
-            data: {
-                '_token': tag_token
-            },
-            before: function (obj) {
-                //预读本地文件示例，不支持ie8
-                obj.preview(function (index, file, result) {
-                    $('.img-upload-view').attr('src', result); //图片链接（base64）
-                });
-            },
-            done: function (res) {
-                //如果上传成功
-                if (res.status === 1) {
-                    layer.msg(res.message, {
-                        icon: 1,
-                        time: 1000,
-                        shade: 0.1
-                    }, function () {
-                        location.reload();
-                    });
-                    // return layer.msg('上传成功');
-                } else { //上传失败
-                    layer.msg(res.message);
-                }
-            },
-            error: function () {
-                //演示失败状态，并实现重传
-                layer.msg('上传', {
-                    icon: 5,
-                    time: 1000,
-                    shade: 0.1
-                },function () {
-                    return false;
-                });
-                // return layer.msg('上传失败,请重新上传');
-            }
-        });
-
-
-         //监听提交
-        form.on('submit(*)', function(data){
-            console.log(data);
-             //根据ip获取城市
-            if ($('#L_city').val() === '') {
-                $.getScript('http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js', function () {
-                    data.field.city = $('#L_city').val(remote_ip_info.city || '');
-                });
-            }
-
-            $.ajax({
-                type: 'PUT',
-                url: '/users/'+'{{ Auth::user()->id }}',
-                data:data.field,
-                success:function(data) {
-                    layer.msg('资料更新成功', {
-                        icon: 1,
-                        time: 1000,
-                        shade: 0.1
-                    }, function () {
-                        location.reload();
-                    });
-
-                },
-
-            });
-        });
-
-        exports('user', null);
-
-    });
+    var reg = /^[\'\"]+|[\'\"]+$/g;
+    var c = JSON.stringify(returnCitySN.cname);
+    var city = c.replace(reg,"");
+    document.getElementById('L_city').value=city;
 </script>
+
+<script>
+
+        layui.config({
+            version: "3.0.0",
+            base: '/res/mods/' //这里实际使用时，建议改成绝对路径
+        }).extend({
+            user: 'user'
+        }).use('user');
+
+    </script>
 @endsection

@@ -27,12 +27,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/logout', 'UsersController@logout')->name('logout');
 
-    /*用户模块*/
+    /**用户 */
     Route::get('/users/{user}', 'UsersController@index')->name('users.index');
     Route::get('/users/{user}/edit', 'UsersController@edit')->name('users.edit');
     Route::put('/users/{user}', 'UsersController@update')->name('users.update');
     Route::get('/users/{user}/message', 'UsersController@message')->name('users.message');
-
+    /**头像 */
     Route::post('/update_avatar/{user}', 'UsersController@update_avatar')->name('update_avatar');
 
+
+
 });
+
+/**帖子 */
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+
+/**分页 */
+Route::post('topics_page','TopicsController@topic');
