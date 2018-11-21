@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Models;
+
 use Carbon\Carbon;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body', 'category_id', 'reward', 'adopt',  'excerpt', 'slug','is_top','good_topic','type'];
+    protected $fillable = ['title', 'body', 'category_id', 'reward', 'adopt', 'excerpt', 'slug', 'is_top', 'good_topic', 'type'];
 
     protected $casts = [
         'adopt' => 'boolean',
@@ -33,9 +34,9 @@ class Topic extends Model
     }
 
     /**排序 */
-    public function scopeWithOrder($query,$order)
+    public function scopeWithOrder($query, $order)
     {
-        switch ($order){
+        switch ($order) {
             case 'recent':
                 $query->recent();
                 break;
@@ -44,18 +45,27 @@ class Topic extends Model
                 break;
         }
 
-        return $query->with('user','category');
+        return $query->with('user', 'category');
     }
 
     /**热议 */
     public function scopeRecentReplied($query)
     {
-        return $query->orderBy('reply_count','desc');
+        return $query->orderBy('reply_count', 'desc');
     }
 
     /**最新 */
     public function scopeRecent($query)
     {
         return $query->orderBy('updated_at', 'desc');
+    }
+
+    /**翻译 */
+    public function link($params = [])
+    {
+        return route('topics.show', array_merge([
+            $this->id,
+            $this->slug,
+        ], $params));
     }
 }

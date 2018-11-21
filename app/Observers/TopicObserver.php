@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\TranslateSlug;
 use App\Models\Topic;
 
 // creating, created, updating, updated, saving,
@@ -13,5 +14,13 @@ class TopicObserver
     {
         $topic->body = clean($topic->body, 'user_topic_body');
         $topic->excerpt = make_excerpt($topic->body);
+    }
+
+    public function saved(Topic $topic)
+    {
+        /**翻译 */
+        if (!$topic->slug) {
+            dispatch(new TranslateSlug($topic));
+        }
     }
 }

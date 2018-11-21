@@ -57,7 +57,7 @@
                     <ul class="mine-view jie-row">
                         @foreach($topics as $topic)
                         <li>
-                            <a class="jie-title" href="{{ route('topics.show',$topic->id) }}" target="_blank">{{ $topic->title }}</a>
+                            <a class="jie-title" href="{{ $topic->link() }}" target="_blank">{{ $topic->title }}</a>
                             <i>{{ $topic->created_at_human }}</i>
                             <a class="mine-edit" href="{{ route('topics.edit',$topic->id) }}">编辑</a>
                             <em>{{ $topic->view_count }}阅/{{ $topic->reply_count }}答</em>

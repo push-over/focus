@@ -38,5 +38,10 @@ return [
         'client_id' => env('GIT_CLIENT_ID'),
         'client_secret' => env('GIT_CLIENT_SECRET'),
         'redirect' => env('GIT_REDIRECT')
+    ],
+    'baidu_translate' => [
+        'appid' => env('BAIDU_TRANSLATE_APPID'),
+        'key'   => env('BAIDU_TRANSLATE_KEY'),
     ]
+
 ];

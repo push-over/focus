@@ -49,7 +49,7 @@
                         @if($topic->good_topic)
                         <span class="fly-jing">精</span>
                         @endif
-                        <a href="{{ route('topics.show',$topic->id) }}" class="jie-title">{{ $topic->title }}</a>
+                        <a href="{{ $topic->link()  }}" class="jie-title">{{ $topic->title }}</a>
                         <i>{{ $topic->created_at_human }}</i>
                         <em class="layui-hide-xs">{{ $topic->view_count }}阅/{{ $topic->reply_count }}答</em>
                     </li>

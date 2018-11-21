@@ -12,8 +12,8 @@ class TopicRequest extends Request
             case 'POST':
             {
                 return [
-                    'title'       => 'required|min:20',
-                    'body'        => 'required|min:100',
+                    'title'       => 'required|min:10',
+                    'body'        => 'required|min:20',
                     'category_id' => 'required|numeric',
                 ];
             }
@@ -22,8 +22,8 @@ class TopicRequest extends Request
             case 'PATCH':
             {
                 return [
-                    'title'       => 'required|min:20',
-                    'body'        => 'required|min:100',
+                    'title'       => 'required|min:10',
+                    'body'        => 'required|min:20',
                     'category_id' => 'required|numeric',
                 ];
             }

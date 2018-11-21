@@ -20,7 +20,7 @@
                             </a>
                             <h2>
                                 <a class="layui-badge">{{ $topic->category->name }}</a>
-                                <a href="{{ route('topics.show',$topic->id) }}">{{ $topic->title }}</a>
+                                <a href="{{ $topic->link()  }}">{{ $topic->title }}</a>
                             </h2>
                             <div class="fly-list-info">
                                 <a href="{{ route('users.home',['user'=>$topic->user->id]) }}" link>
