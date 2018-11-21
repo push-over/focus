@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topic;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class PagesController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request,Category $category)
     {
-        return view('pages.index');
+
+        $topics = Topic::query()->where('is_top', true)->orderBy('updated_at', 'desc')->paginate(5);
+
+        return view('pages.index', compact('topics','category'));
     }
 }

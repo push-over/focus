@@ -1,16 +1,14 @@
 <div class="fly-header layui-bg-black">
         <div class="layui-container">
-          <a class="fly-logo" href="/">
+          <a class="fly-logo" href="/" >
             <img src="/res/images/logo.png" alt="layui">
           </a>
           <ul class="layui-nav fly-nav layui-hide-xs">
+
             @foreach($category as $c)
-            <li class="layui-nav-item layui-this">
-              <a href="/"><i class="iconfont icon-ui"></i>{{ $c->name}}</a>
+            <li class="layui-nav-item {{ active_class((if_route('categories.show') && if_route_param('category', $c->id)),'layui-this') }}">
+              <a style="padding: 0px 20px;" href="{{ route('categories.show',$c->id) }}">{{ $c->name }}</a>
             </li>
-            {{-- <li class="layui-nav-item">
-              <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-            </li> --}}
             @endforeach
           </ul>
 
@@ -55,30 +53,34 @@
         </div>
       </div>
 
-      @if(route_page() === 'pages-index')
+      @if(route_page() === 'pages-index' || route_page() === 'topics-show' || route_page() === 'categories-show' || route_page() === 'topics-index')
       <div class="fly-panel fly-column">
             <div class="layui-container">
               <ul class="layui-clear">
+                @if(route_page() === 'pages-index')
                 <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
-                <li><a href="jie/index.html">提问</a></li>
-                <li><a href="jie/index.html">分享<span class="layui-badge-dot"></span></a></li>
-                <li><a href="jie/index.html">讨论</a></li>
-                <li><a href="jie/index.html">建议</a></li>
-                <li><a href="jie/index.html">公告</a></li>
-                <li><a href="jie/index.html">动态</a></li>
+                @endif
+                <li><a href="{{ route('topics.index') }}">提问</a></li>
+                <li><a href="{{ route('topics.index') }}">分享<span class="layui-badge-dot"></span></a></li>
+                <li><a href="{{ route('topics.index') }}">讨论</a></li>
+                <li><a href="{{ route('topics.index') }}">建议</a></li>
+                <li><a href="{{ route('topics.index') }}">公告</a></li>
+                <li><a href="{{ route('topics.index') }}">动态</a></li>
                 <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
 
                 <!-- 用户登入后显示 -->
-                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html">我发表的贴</a></li>
-                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="user/index.html#collection">我收藏的贴</a></li>
-              </ul>
+                @if(isset(Auth::user()->id))
+                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{{ route('users.index',['user'=>Auth::user()->id]) }}">我发表的贴</a></li>
+                <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="{{ route('users.index',['user'=>Auth::user()->id]) }}#collection">我收藏的贴</a></li>
+                @endif
+            </ul>
 
               <div class="fly-column-right layui-hide-xs">
                 <span class="fly-search"><i class="layui-icon"></i></span>
-                <a href="jie/add.html" class="layui-btn">发表新帖</a>
+                <a href="{{ route('topics.create') }}" class="layui-btn">发表新帖</a>
               </div>
               <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
-                <a href="jie/add.html" class="layui-btn">发表新帖</a>
+                <a href="{{ route('topics.create') }}" class="layui-btn">发表新帖</a>
               </div>
             </div>
           </div>

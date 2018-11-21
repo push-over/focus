@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     /**关联话题 */
-    public function topic()
+    public function topics()
     {
         return $this->hasMany(Topic::class);
     }

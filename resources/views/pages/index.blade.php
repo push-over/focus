@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section ('title', '焦点社区')
+
 @section('content')
 <div class="layui-container">
         <div class="layui-row layui-col-space15">
@@ -9,73 +11,73 @@
                         <a>置顶</a>
                         <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
                     </div>
-                    <ul class="fly-list">
+                    <ul class="fly-list top-page">
+                        @foreach($topics as $topic)
                         <li>
-                            <a href="user/home.html" class="fly-avatar">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                    alt="贤心">
+                            <a href="{{ route('users.home',['user'=>$topic->user->id]) }}" class="fly-avatar">
+                                <img src="{{ $topic->user->avatar }}"
+                                    alt="{{ $topic->user->name }}">
                             </a>
                             <h2>
-                                <a class="layui-badge">动态</a>
-                                <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
+                                <a class="layui-badge">{{ $topic->category->name }}</a>
+                                <a href="{{ route('topics.show',$topic->id) }}">{{ $topic->title }}</a>
                             </h2>
                             <div class="fly-list-info">
-                                <a href="user/home.html" link>
-                                    <cite>贤心</cite>
-                                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
+                                <a href="{{ route('users.home',['user'=>$topic->user->id]) }}" link>
+                                    <cite>{{ $topic->user->name }}</cite>
+                                    {{-- <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
+                                    <i class="layui-badge fly-badge-vip">VIP3</i> --}}
                                 </a>
-                                <span>刚刚</span>
+                                <span>{{ $topic->created_at_human }}</span>
 
                                 <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i>
-                                    60</span>
+                                    {{ $topic->reward }}</span>
+                                @if($topic->adopt)
                                 <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
+                                @endif
                                 <span class="fly-list-nums">
-                                    <i class="iconfont icon-pinglun1" title="回答"></i> 66
+                                    <i class="iconfont icon-pinglun1" title="回答"></i>{{ $topic->reply_count }}
                                 </span>
                             </div>
                             <div class="fly-list-badge">
 
                                 <span class="layui-badge layui-bg-black">置顶</span>
+                                @if($topic->good_topic)
                                 <span class="layui-badge layui-bg-red">精帖</span>
-
+                                @endif
                             </div>
                         </li>
+                        @endforeach
                     </ul>
                 </div>
 
                 <div class="fly-panel" style="margin-bottom: 0;">
-
-                    <div class="fly-panel-title fly-filter">
-                        <a href="" class="layui-this">综合</a>
+                    <input type="hidden" class="tag_token" name="_token" value="{{ csrf_token() }}">
+                    <div class="fly-panel-title fly-filter topic-order">
+                        <a href=""  class="layui-this">综合</a>
                         <span class="fly-mid"></span>
-                        <a href="">未结</a>
+                        <a href="{{ Request::url() }}?select=no_adopt">未结</a>
                         <span class="fly-mid"></span>
-                        <a href="">已结</a>
+                        <a href="{{ Request::url() }}?select=adopt">已结</a>
                         <span class="fly-mid"></span>
-                        <a href="">精华</a>
+                        <a href="{{ Request::url() }}?select=is_top">精华</a>
                         <span class="fly-filter-right layui-hide-xs">
-                            <a href="" class="layui-this">按最新</a>
+                            <a href="{{ Request::url() }}?order=recent" class="layui-this">按最新</a>
                             <span class="fly-mid"></span>
-                            <a href="">按热议</a>
+                            <a href="{{ Request::url() }}?order=default">按热议</a>
                         </span>
                     </div>
 
                     <ul class="fly-list topic">
 
                     </ul>
-                    {{-- <div style="text-align: center">
-                        <div class="laypage-main">
-                            <a href="jie/index.html" class="laypage-next">更多求解</a>
-                        </div>
-                    </div> --}}
 
-                    <!-- <div class="fly-none">没有相关数据</div> -->
-                <input type="hidden" name="_token" class="tag_token" value="{{ csrf_token() }}">
+
+
                     <div style="text-align: center">
-                            <div id="topic-page">
-                            </div>
+                        <div id="topic-page">
                         </div>
+                    </div>
 
                 </div>
             </div>
@@ -87,22 +89,7 @@
                         <li>
                             <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
                         </li>
-                        <li>
-                            <a href="http://fly.layui.com/jie/5366/" target="_blank">
-                                layui 常见问题的处理和实用干货集锦
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
-                        </li>
-                        <li>
-                            <a href="http://fly.layui.com/jie/5366/" target="_blank">
-                                layui 常见问题的处理和实用干货集锦
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
-                        </li>
+
                     </ul>
                 </div>
 
@@ -152,87 +139,13 @@
                                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
                             </a>
                         </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
+
                     </dl>
                 </div>
 
                 <dl class="fly-panel fly-list-one">
                     <dt class="fly-panel-title">本周热议</dt>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
+
                     <dd>
                         <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
                         <span><i class="iconfont icon-pinglun1"></i> 16</span>

@@ -15,6 +15,15 @@ Route::get('/', 'PagesController@index')->name('pages.index');
 
 Route::get('/users/{user}/home', 'UsersController@home')->name('users.home');
 
+/**分页 */
+Route::get('topics_page','TopicsController@topic');
+
+/**帖子 */
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
+
+
+
 Route::group(['middleware' => 'guest'], function () {
 
     /*GitHub登录*/
@@ -35,12 +44,4 @@ Route::group(['middleware' => 'auth'], function () {
     /**头像 */
     Route::post('/update_avatar/{user}', 'UsersController@update_avatar')->name('update_avatar');
 
-
-
 });
-
-/**帖子 */
-Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
-
-/**分页 */
-Route::post('topics_page','TopicsController@topic');

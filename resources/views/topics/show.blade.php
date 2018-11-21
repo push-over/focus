@@ -8,23 +8,28 @@
                     <h1>{{ $topic->title }}</h1>
                     <div class="fly-detail-info">
                         <!-- <span class="layui-badge">审核中</span> -->
-                        <span class="layui-badge layui-bg-green fly-detail-column">动态</span>
+                        <span class="layui-badge layui-bg-green fly-detail-column">{{ $topic->category->name }}</span>
 
+                        @if($topic->adopt)
+                        <span class="layui-badge" style="background-color: #5FB878;">已结</span>
+                        @else
                         <span class="layui-badge" style="background-color: #999;">未结</span>
-                        <!-- <span class="layui-badge" style="background-color: #5FB878;">已结</span> -->
-
+                        @endif
                         <span class="layui-badge layui-bg-black">置顶</span>
-                        <span class="layui-badge layui-bg-red">精帖</span>
 
-                        <div class="fly-admin-box" data-id="123">
+                        @if($topic->good_topic)
+                        <span class="layui-badge layui-bg-red">精帖</span>
+                        @endif
+
+                        {{-- <div class="fly-admin-box" data-id="123">
                             <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
 
                             <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
-                            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
+                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>
 
                             <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-                            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
-                        </div>
+                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span>
+                        </div> --}}
                         <span class="fly-list-nums">
                             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $topic->reply_count }}</a>
                             <i class="iconfont" title="人气">&#xe60b;</i> {{ $topic->view_count }}

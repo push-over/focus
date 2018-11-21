@@ -23,7 +23,9 @@ class UsersController extends Controller
     public function index(User $user)
     {
         $this->authorize('update',$user);
-        return view('user.index', compact('user'));
+        $topics = $user->topics()->recent()->paginate(20);
+
+        return view('user.index', compact('user','topics'));
     }
 
     public function home(User $user)

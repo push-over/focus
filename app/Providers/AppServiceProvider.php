@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
 
         \Carbon\Carbon::setLocale('zh');
 
-        \View::composer(['pages.index','users*','auth*','update_avatar.*','topics.*','topics_page'],\App\Http\ViewComposers\CategoryComposer::class);
+        \View::composer(['pages.index','topics.*','topics_page','login','user.*','auth.*','update_avatar.*'],\App\Http\ViewComposers\CategoryComposer::class);
     }
 
     /**

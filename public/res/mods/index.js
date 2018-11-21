@@ -22,37 +22,45 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
 
         var strUrl = window.location.href;
         var arrUrl = strUrl.split("/");
+        var strPage = arrUrl[arrUrl.length-1];
+        var id=strPage.replace(/[^0-9]/ig,"");
+
         var reg = /^[\'\"]+|[\'\"]+$/g;
         var c = JSON.stringify(arrUrl[3]);
         var route = c.replace(reg,"");
+        // var tag_token = $(".tag_token").val();
         if(route != 'users' && route != 'topics') {
+
+            var order = strUrl.split("?");
+            var or = order[1] ? order[1] : '';
+            var o = or.replace(reg,"");
             window.onload = function () {
 
                 loadData() //请求数据
                 getPage() //分页操作
             }
+
             var page = 1; //设置首页页码
-            var limit = 15; //设置一页显示的条数
+            var limit = 10; //设置一页显示的条数
             var total; //总条数
 
             function loadData() {
-                var tag_token = $(".tag_token").val();
                 $.ajax({
-                    type: "post",
+                    type: "GET",
                     url: "/topics_page?page="+page, //对应controller的URL
                     async: false,
                     dataType: 'json',
                     data: {
                         "pageIndex": page,
                         "pageSize": limit,
-                        '_token': tag_token
+                        "category_id": id,
+                        'order': o,
+                        // '_token': tag_token
                     },
                     success: function (ret) {
                         total = ret.total; //设置总条数
                         var data = ret.data;
-                        // console.log(ret);
                         var html = '';
-                        // console.log(data)
                         for (var i = 0; i < data.length; i++) {
                         html += ` <li>
                         <a href="/users/`+data[i].user_id+`/home" class="fly-avatar">
@@ -83,9 +91,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                                 <i class="iconfont icon-pinglun1" title="回答"></i> `+data[i].reply_count+`
                             </span>
                         </div>
-                        <div class="fly-list-badge">
-                            <!-- <span class="layui-badge layui-bg-red">精帖</span> -->
-                        </div>
+                        <div class="fly-list-badge">`;
+                        if(data[i].good_topic) {
+                            html+= `<span class="layui-badge layui-bg-red">精帖</span>`;
+                        }
+                        html+= `</div>
                     </li>`;
                         }
                         $(".topic").empty().append(html);
@@ -97,7 +107,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                 layui.use('laypage', function () {
                     var laypage = layui.laypage;
 
-                    //执行一个laypage实例
                     laypage.render({
                         elem: 'topic-page',
                         count: total, //数据总数，从服务端得到
@@ -206,8 +215,10 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
         //简易编辑器
         ,
         layEditor: function (options) {
-                var html = ['<div class="layui-unselect fly-edit">', '<span type="face" title="插入表情"><i class="iconfont icon-yxj-expression" style="top: 1px;"></i></span>', '<span type="picture" title="插入图片：img[src]"><i class="iconfont icon-tupian"></i></span>', '<span type="href" title="超链接格式：a(href)[text]"><i class="iconfont icon-lianjie"></i></span>', '<span type="code" title="插入代码或引用"><i class="iconfont icon-emwdaima" style="top: 1px;"></i></span>', '<span type="hr" title="插入水平线">hr</span>', '<span type="yulan" title="预览"><i class="iconfont icon-yulan1"></i></span>', '</div>'].join('');
 
+                var html = ['<div class="layui-unselect fly-edit">', '<span type="face" title="插入表情"><i class="iconfont icon-yxj-expression" style="top: 1px;"></i></span>', '<span type="picture" title="插入图片：img[src]"><i class="iconfont icon-tupian"></i></span>', '<span type="href" title="超链接格式：a(href)[text]"><i class="iconfont icon-lianjie"></i></span>', '<span type="code" title="插入代码或引用"><i class="iconfont icon-emwdaima" style="top: 1px;"></i></span>', '<span type="hr" title="插入水平线">hr</span>', '<span type="yulan" title="预览"><i class="iconfont icon-yulan1"></i></span>', '</div>'].join('');
+                var tag_token = $(".tag_token").val();
+                var id = $(".user_id").val();
                 var log = {},
                     mod = {
                         face: function (editor, self) { //插入表情
@@ -230,6 +241,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                                 layui.focusInsert(editor[0], 'face' + title);
                             });
                         },
+
+
                         picture: function (editor) { //插入图片
                             layer.open({
                                 type: 1,
@@ -250,7 +263,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                                     //执行上传实例
                                     upload.render({
                                         elem: '#uploadImg',
-                                        url: '/api/upload/',
+                                        url: '/update_avatar/'+id,
                                         size: 200,
                                         done: function (res) {
                                             if (res.status == 0) {

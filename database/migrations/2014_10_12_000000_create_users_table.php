@@ -23,6 +23,10 @@ class CreateUsersTable extends Migration
             $table->string('provider_id');
             $table->text('avatar');
 
+            $table->tinyInteger('sex')->nullable()->comment('性别');
+            $table->string('city')->nullable()->comment('城市');
+            $table->string('description')->nullable()->comment('签名');
+
             $table->rememberToken();
             $table->timestamps();
         });
