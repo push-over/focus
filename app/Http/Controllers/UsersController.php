@@ -61,7 +61,7 @@ class UsersController extends Controller
             $date = date('Ymd');
             $path = $request->file('file')->store('', 'upload');
             if ($path) {
-                $fileUrl = '/upload/avatar/' . $date . '/' . $path;
+                $fileUrl = '/upload/image/' . $date . '/' . $path;
                 $status = 1;
                 $data['url'] = $fileUrl;
                 $message = '上传成功';

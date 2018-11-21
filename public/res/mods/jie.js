@@ -71,18 +71,23 @@ layui.define('fly', function(exports){
     });
   };
 
+
   //求解管理
   gather.jieAdmin = {
     //删求解
     del: function(div){
-      layer.confirm('确认删除该求解么？', function(index){
+      layer.confirm('确认删除该话题么？', function(index){
         layer.close(index);
-        fly.json('/api/jie-delete/', {
-          id: div.data('id')
+        fly.json('/topics/', {
+          topic: div.data('id'),
+          _token: div.data('token'),
+          _method: 'DELETE'
         }, function(res){
+            console.log(res)
           if(res.status === 0){
-            location.href = '/jie/';
+            location.href = '/';
           } else {
+              console.log(res)
             layer.msg(res.msg);
           }
         });

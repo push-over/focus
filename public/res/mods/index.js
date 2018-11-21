@@ -130,7 +130,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
 
     //阻止IE7以下访问
     if (device.ie && device.ie < 8) {
-        layer.alert('如果您非得使用 IE 浏览器访问Fly社区，那么请使用 IE8+');
+        layer.alert('如果您非得使用 IE 浏览器访问焦点社区，那么请使用 IE8+');
     }
 
     layui.focusInsert = function (obj, str) {
@@ -218,7 +218,6 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
 
                 var html = ['<div class="layui-unselect fly-edit">', '<span type="face" title="插入表情"><i class="iconfont icon-yxj-expression" style="top: 1px;"></i></span>', '<span type="picture" title="插入图片：img[src]"><i class="iconfont icon-tupian"></i></span>', '<span type="href" title="超链接格式：a(href)[text]"><i class="iconfont icon-lianjie"></i></span>', '<span type="code" title="插入代码或引用"><i class="iconfont icon-emwdaima" style="top: 1px;"></i></span>', '<span type="hr" title="插入水平线">hr</span>', '<span type="yulan" title="预览"><i class="iconfont icon-yulan1"></i></span>', '</div>'].join('');
                 var tag_token = $(".tag_token").val();
-                var id = $(".user_id").val();
                 var log = {},
                     mod = {
                         face: function (editor, self) { //插入表情
@@ -263,13 +262,18 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                                     //执行上传实例
                                     upload.render({
                                         elem: '#uploadImg',
-                                        url: '/update_avatar/'+id,
+                                        url: '/store_image',
                                         size: 200,
+                                        type: 'images',
+                                        exts: 'jpg|png|gif', //设置一些后缀，用于演示前端验证和后端的验证
+                                        data: {
+                                            '_token': tag_token
+                                        },
                                         done: function (res) {
-                                            if (res.status == 0) {
-                                                image.val(res.url);
+                                            if (res.status == 1) {
+                                                image.val(res.data.url);
                                             } else {
-                                                layer.msg(res.msg, {
+                                                layer.msg(res.message, {
                                                     icon: 5
                                                 });
                                             }

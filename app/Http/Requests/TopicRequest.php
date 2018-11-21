@@ -12,7 +12,9 @@ class TopicRequest extends Request
             case 'POST':
             {
                 return [
-                    // CREATE ROLES
+                    'title'       => 'required|min:20',
+                    'body'        => 'required|min:100',
+                    'category_id' => 'required|numeric',
                 ];
             }
             // UPDATE
@@ -20,7 +22,9 @@ class TopicRequest extends Request
             case 'PATCH':
             {
                 return [
-                    // UPDATE ROLES
+                    'title'       => 'required|min:20',
+                    'body'        => 'required|min:100',
+                    'category_id' => 'required|numeric',
                 ];
             }
             case 'GET':
@@ -35,7 +39,8 @@ class TopicRequest extends Request
     public function messages()
     {
         return [
-            // Validation messages
+            'title.min' => '标题太短',
+            'body.min' => '文章内容太短',
         ];
     }
 }

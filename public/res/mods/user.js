@@ -182,6 +182,7 @@ layui.define(['laypage', 'fly', 'element', 'flow'], function (exports) {
     var uploadInst = upload.render({
         elem: '.upload-img',
         type: 'images',
+        size: 200,
         exts: 'jpg|png|gif', //设置一些后缀，用于演示前端验证和后端的验证
         url: '/update_avatar/' + id,
         data: {

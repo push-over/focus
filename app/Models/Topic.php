@@ -5,7 +5,7 @@ use Carbon\Carbon;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reward', 'adopt', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug','is_top','good_topic'];
+    protected $fillable = ['title', 'body', 'category_id', 'reward', 'adopt',  'excerpt', 'slug','is_top','good_topic','type'];
 
     protected $casts = [
         'adopt' => 'boolean',

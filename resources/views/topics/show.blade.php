@@ -21,15 +21,20 @@
                         <span class="layui-badge layui-bg-red">精帖</span>
                         @endif
 
-                        {{-- <div class="fly-admin-box" data-id="123">
-                            <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
-
-                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
+                        <div class="fly-admin-box" data-id="">
+                            <form action="{{ route('topics.destroy', $topic->id) }}" method="post">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                @if($topic->user_id === Auth::user()->id)
+                                <input  class="layui-btn layui-btn-xs jie-admin" onclick="alert('确定要删除吗?')" value="删除" type="submit" value="删除">
+                                @endif
+                            </form>
+                            {{-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
                             <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>
 
                             <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="1">加精</span>
-                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span>
-                        </div> --}}
+                            <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> --}}
+                        </div>
                         <span class="fly-list-nums">
                             <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> {{ $topic->reply_count }}</a>
                             <i class="iconfont" title="人气">&#xe60b;</i> {{ $topic->view_count }}
@@ -38,7 +43,7 @@
                     <div class="detail-about">
                         <a class="fly-avatar" href="{{ route('users.home',['user'=>$topic->user->id]) }}">
                             <img src="{{ $topic->user->avatar }}"
-                                alt="贤心">
+                                alt="{{ $topic->user->name }}">
                         </a>
                         <div class="fly-detail-user">
                             <a href="{{ route('users.home',['user'=>$topic->user->id]) }}" class="fly-link">
@@ -52,11 +57,13 @@
                             @if($topic->reward)
                             <span style="padding-right: 10px; color: #FF7200">悬赏：{{ $topic->reward }}飞吻</span>
                             @endif
-                            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="add.html">编辑此贴</a></span>
+                            @if($topic->user_id === Auth::user()->id)
+                            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="{{ route('topics.edit',$topic->id) }}">编辑此贴</a></span>
+                            @endif
                         </div>
                     </div>
                     <div class="detail-body photos">
-                        {{ $topic->body }}
+                        {!! $topic->body !!}
                     </div>
                 </div>
 
@@ -178,42 +185,7 @@
                         <a href="">基于 layui 的极简社区页面模版</a>
                         <span><i class="iconfont icon-pinglun1"></i> 16</span>
                     </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
-                    <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
-                    </dd>
+
 
                     <!-- 无数据时 -->
                     <!--
@@ -239,4 +211,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+
+@section('ScriptAfterJs')
+    <script>
+        layui.config({
+            version: "3.0.0",
+            base: '/res/mods/' //这里实际使用时，建议改成绝对路径
+        }).extend({
+            jie: 'jie'
+        }).use('jie');
+    </script>
+
+
 @endsection

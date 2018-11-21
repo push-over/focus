@@ -20,6 +20,7 @@ Route::get('topics_page','TopicsController@topic');
 
 /**帖子 */
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 
 

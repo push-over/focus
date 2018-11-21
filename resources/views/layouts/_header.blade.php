@@ -57,9 +57,7 @@
       <div class="fly-panel fly-column">
             <div class="layui-container">
               <ul class="layui-clear">
-                @if(route_page() === 'pages-index')
                 <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
-                @endif
                 <li><a href="{{ route('topics.index') }}">提问</a></li>
                 <li><a href="{{ route('topics.index') }}">分享<span class="layui-badge-dot"></span></a></li>
                 <li><a href="{{ route('topics.index') }}">讨论</a></li>

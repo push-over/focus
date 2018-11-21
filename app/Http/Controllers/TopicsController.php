@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use App\Models\Topic;
+use Auth;
+use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
 
 class TopicsController extends Controller
@@ -22,7 +24,7 @@ class TopicsController extends Controller
 
     public function show(Topic $topic)
     {
-        return view('topics.show',compact('topic'));
+        return view('topics.show', compact('topic'));
     }
 
     public function create(Topic $topic)
@@ -30,10 +32,12 @@ class TopicsController extends Controller
         return view('topics.create_and_edit', compact('topic'));
     }
 
-    public function store(TopicRequest $request)
+    public function store(TopicRequest $request, Topic $topic)
     {
-        $topic = Topic::create($request->all());
-        return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+        $topic->fill($request->all());
+        $topic->user_id = Auth::user()->id;
+        $topic->save();
+        return redirect()->route('topics.show', $topic->id);
     }
 
     public function edit(Topic $topic)
@@ -47,7 +51,7 @@ class TopicsController extends Controller
         $this->authorize('update', $topic);
         $topic->update($request->all());
 
-        return redirect()->route('topics.show', $topic->id)->with('message', 'Updated successfully.');
+        return redirect()->route('topics.show', $topic->id);
     }
 
     public function destroy(Topic $topic)
@@ -55,7 +59,7 @@ class TopicsController extends Controller
         $this->authorize('destroy', $topic);
         $topic->delete();
 
-        return redirect()->route('topics.index')->with('message', 'Deleted successfully.');
+        return redirect()->route('topics.index');
     }
 
     public function topic(Request $request)
@@ -66,14 +70,33 @@ class TopicsController extends Controller
             $topics->where('category_id', $request->category_id);
         }
 
-        if($request->order)
-        {
-            $order = explode('=',$request->order);
+        if ($request->order) {
+            $order = explode('=', $request->order);
             $topic = $topics->withOrder($order[1] ? $order[1] : 'recent')->paginate($request->pageSize);
 
         }
         $topic = $topics->withOrder('recent')->paginate($request->pageSize);
 
         return $topic;
+    }
+
+    public function uploadImage(Request $request, ImageUploadHandler $uploader)
+    {
+        $data = [
+            'success' => false,
+            'msg' => '上传失败!',
+            'file_path' => '',
+        ];
+
+        if ($file = $request->upload_file) {
+            $result = $uploader->save($request->upload_file, 'topics', \Auth::id(), 1024);
+
+            if ($result) {
+                $data['file_path'] = $result['path'];
+                $data['msg'] = "上传成功!";
+                $data['success'] = true;
+            }
+        }
+        return $data;
     }
 }

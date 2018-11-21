@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href="/res/layui/css/layui.css">
     <link rel="stylesheet" href="/res/css/global.css">
+    @yield('styles')
 
 </head>
 
@@ -24,6 +25,8 @@
     </div>
 
     <script src="/res/layui/layui.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
     <script>
         layui.cache.page = '';
         layui.cache.user = {
