@@ -35,7 +35,8 @@ class TopicsController extends Controller
         }
         $topic->increment('view_count',1);
 		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',false)->orderBy('updated_at','desc')->paginate(5);
-        $adopt = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',true)->orderBy('updated_at','desc')->get();
+        $adopt = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',true)->orderBy('updated_at','desc')->first();
+
         return view('topics.show', compact('topic','replies','adopt'));
     }
 

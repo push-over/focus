@@ -76,10 +76,10 @@
 
                     <ul class="jieda" id="jieda">
                             @if (count($replies))
-                            @if(count($adopt))
                             <li data-id="111" class="jieda-daan">
                                     <a name="item-1111111111"></a>
                                     <div class="detail-about detail-about-reply">
+                            @if(count($adopt))
                                         <a class="fly-avatar" href="{{ route('users.home',['user'=> $adopt->user->id]) }}">
                                             <img src="{{ $adopt->user->avatar }}"
                                                 alt="{{ $adopt->user->name }}">
