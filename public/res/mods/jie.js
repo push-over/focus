@@ -231,10 +231,10 @@ layui.define('fly', function(exports){
     }
   };
 
-  $('.jieda-reply span').on('click', function(){
-    var othis = $(this), type = othis.attr('type');
-    gather.jiedaActive[type].call(this, othis.parents('li'));
-  });
+//   $('.jieda-reply span').on('click', function(){
+//     var othis = $(this), type = othis.attr('type');
+//     gather.jiedaActive[type].call(this, othis.parents('li'));
+//   });
 
 
   //定位分页

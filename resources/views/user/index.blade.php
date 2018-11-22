@@ -49,7 +49,7 @@
     -->
         <div class="layui-tab layui-tab-brief" lay-filter="user">
             <ul class="layui-tab-title" id="LAY_mine">
-                <li data-type="mine-jie" lay-id="index" class="layui-this">我发的帖（<span>0</span>）</li>
+                <li data-type="mine-jie" lay-id="index" class="layui-this">我发的帖（<span>{{ count(Auth::user()->topics )}}</span>）</li>
                 <li data-type="collection" data-url="/collection/find/" lay-id="collection">我收藏的帖（<span>16</span>）</li>
             </ul>
             <div class="layui-tab-content" style="padding: 20px 0;">

@@ -121,13 +121,22 @@
                                             <i class="iconfont icon-svgmoban53"></i>
                                             回复
                                         </span>
-                                        <div class="jieda-admin">
-                                            <span type="edit">编辑</span>
-                                            <span type="del">删除</span>
-                                            @if(!$reply->adopt && !$reply->topic->adopt)
-                                            <span class="jieda-accept" type="accept">采纳</span>
-                                            @endif
-                                        </div>
+
+                                            <div class="jieda-admin">
+                                                    @can('destroy', $reply)
+                                                    <form action="{{ route('replies.destroy', $reply->id) }}" method="post">
+                                                {{-- <span type="edit">编辑</span> --}}
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <span onclick="layer.confirm('确认删除该话题么？');">删除</span>
+                                                </form>
+                                                @endcan
+                                                @if(!$reply->adopt && !$reply->topic->adopt)
+                                                <span class="jieda-accept" type="accept">采纳</span>
+                                                @endif
+                                            </div>
+
+
                                     </div>
                                 </li>
                                 @endforeach
@@ -176,10 +185,12 @@
             <div class="layui-col-md4">
                 <dl class="fly-panel fly-list-one">
                     <dt class="fly-panel-title">本周热议</dt>
+                    @foreach($topic_reply as $reply)
                     <dd>
-                        <a href="">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
+                        <a href="{{ $reply->link() }}">{{ str_limit($reply->title,40,'') }}</a>
+                        <span><i class="iconfont icon-pinglun1"></i> {{ $reply->reply_count }}</span>
                     </dd>
+                    @endforeach
 
 
                     <!-- 无数据时 -->

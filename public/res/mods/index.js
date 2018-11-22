@@ -109,6 +109,10 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                         elem: 'topic-page',
                         count: total, //数据总数，从服务端得到
                         limit: limit, //每页条数设置
+                        limits: limit,
+                        prev: '<i class="layui-icon">&#xe65a;</i>',
+                        next:'<i class="layui-icon">&#xe65b;</i>',
+                        layout:['prev','page','next','limit','refresh','skip'],
                         jump: function (obj, first) {
                             //obj包含了当前分页的所有参数，比如：
                             //console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
@@ -244,13 +248,13 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
         }
 
     };
-
     //签到
     var tplSignin = ['{{# if(d.signed){ }}', '<button class="layui-btn layui-btn-disabled">今日已签到</button>', '<span>获得了<cite>{{ d.experience }}</cite>飞吻</span>', '{{# } else { }}', '<button class="layui-btn layui-btn-danger" id="LAY_signin">今日签到</button>', '<span>可获得<cite>{{ d.experience }}</cite>飞吻</span>', '{{# } }}'].join(''),
         tplSigninDay = '已连续签到<cite>{{ d.days }}</cite>天'
 
         ,
         signRender = function (data) {
+            console.log(data)
             laytpl(tplSignin).render(data, function (html) {
                 elemSigninMain.html(html);
             });
@@ -276,9 +280,11 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
     }
     $('body').on('click', '#LAY_signin', function () {
         var othis = $(this);
-        if (othis.hasClass(DISABLED)) return;
 
-        fly.json('/sign/in', {
+        if (othis.hasClass(DISABLED)) return;
+        console.log(othis)
+
+        fly.json('', {
             token: signRender.token || 1
         }, function (res) {
             signRender(res.data);
@@ -396,19 +402,21 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
         })
     });
 
-    //新消息通知
-    fly.newmsg();
+//新消息通知
+fly.newmsg();
 
-    //发送激活邮件
-    fly.activate = function (email) {
-        fly.json('/api/activate/', {}, function (res) {
-            if (res.status === 0) {
-                layer.alert('已成功将激活链接发送到了您的邮箱，接受可能会稍有延迟，请注意查收。', {
-                    icon: 1
-                });
-            };
-        });
-    };
+//发送激活邮件
+fly.activate = function (email) {
+    fly.json('/api/activate/', {}, function (res) {
+        if (res.status === 0) {
+            layer.alert('已成功将激活链接发送到了您的邮箱，接受可能会稍有延迟，请注意查收。', {
+                icon: 1
+            });
+        };
+    });
+};
+
+
     $('#LAY-activate').on('click', function () {
         fly.activate($(this).attr('email'));
     });
@@ -495,7 +503,5 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
             }
         }
     });
-
     exports('fly', fly);
-
 });

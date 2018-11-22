@@ -15,6 +15,7 @@ class ReplyPolicy extends Policy
 
     public function destroy(User $user, Reply $reply)
     {
-        return true;
+        return $reply->user_id == $user->id || $user->id == $reply->topic;
+
     }
 }

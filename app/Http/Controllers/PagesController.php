@@ -12,7 +12,6 @@ class PagesController extends Controller
     {
 
         $topics = Topic::query()->where('is_top', true)->orderBy('updated_at', 'desc')->paginate(5);
-
-        return view('pages.index', compact('topics','category'));
+        return view('pages.index', compact('topics'));
     }
 }

@@ -23,4 +23,10 @@ class TopicObserver
             dispatch(new TranslateSlug($topic));
         }
     }
+
+    public function updated()
+    {
+        dispatch(new TranslateSlug($topic));
+    }
+
 }

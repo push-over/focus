@@ -82,7 +82,7 @@
                     <h3 class="fly-panel-title">温馨通道</h3>
                     <ul class="fly-panel-main fly-list-static">
                         <li>
-                            <a href="" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
+                            <a href="" target="_blank">我的 的 GitHub 仓库，欢迎Star</a>
                         </li>
 
                     </ul>
@@ -113,39 +113,24 @@
                 <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
                     <h3 class="fly-panel-title">回贴周榜</h3>
                     <dl>
-                        <!--<i class="layui-icon fly-loading">&#xe63d;</i>-->
+                        @foreach($users as $user)
                         <dd>
-                            <a href="user/home.html">
-                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
+                            <a href="{{ route('users.home',['user'=>$user->id]) }}">
+                                <img src="{{ $user->avatar }}"><cite>{{$user->name}}</cite><i>{{ count($user->replies) }}次回答</i>
                             </a>
                         </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-                        <dd>
-                            <a href="user/home.html">
-                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
-                            </a>
-                        </dd>
-
+                        @endforeach
                     </dl>
                 </div>
 
                 <dl class="fly-panel fly-list-one">
                     <dt class="fly-panel-title">本周热议</dt>
-
+                    @foreach($topic_reply as $reply)
                     <dd>
-                        <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
-                        <span><i class="iconfont icon-pinglun1"></i> 16</span>
+                        <a href="{{ $reply->link() }}">{{ str_limit($reply->title,40,'') }}</a>
+                        <span><i class="iconfont icon-pinglun1"></i> {{ $reply->reply_count }}</span>
                     </dd>
-
+                    @endforeach
                     <!-- 无数据时 -->
                     <!--
             <div class="fly-none">没有相关数据</div>
