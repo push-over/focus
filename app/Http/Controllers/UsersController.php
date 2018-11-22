@@ -6,6 +6,8 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
+use App\Models\Topic;
+use App\Models\Reply;
 
 class UsersController extends Controller
 {
@@ -30,13 +32,17 @@ class UsersController extends Controller
 
     public function home(User $user)
     {
-        return view('user.home', compact('user'));
+        $topics = Topic::query()->with(['user','topic'])->where('user_id',$user->id)->where('type','提问')->orderBy('created_at','desc')->paginate(15);
+        $replies = Reply::query()->with(['user','topic'])->where('user_id',$user->id)->orderBy('updated_at','desc')->paginate(5);
+        return view('user.home', compact('user','replies','topics'));
     }
 
     public function message(User $user)
     {
         $this->authorize('update',$user);
-        return view('user.message', compact('user'));
+        $notifications = $user->notifications()->paginate(5);
+        $user->markAsRead();
+        return view('user.message', compact('user','notifications'));
     }
 
     public function edit(User $user)
@@ -61,7 +67,7 @@ class UsersController extends Controller
             $date = date('Ymd');
             $path = $request->file('file')->store('', 'upload');
             if ($path) {
-                $fileUrl = '/upload/image/' . $date . '/' . $path;
+                $fileUrl = '/uploads/avatar/' . $date . '/' . $path;
                 $status = 1;
                 $data['url'] = $fileUrl;
                 $message = '上传成功';

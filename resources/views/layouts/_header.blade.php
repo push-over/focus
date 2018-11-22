@@ -24,11 +24,12 @@
               <a href="{{ route('login') }}">登入</a>
             </li>
 
-            {{-- <li class="layui-nav-item layui-hide-xs">
-              <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
-            </li> --}}
             @else
             <!-- 登入后的状态 -->
+            <li class="layui-nav-item layui-hide-xs">
+                    <a @if(Auth::user()->notification_count) style="color:red" @endif href="{{ route('users.message',['user'=>Auth::user()->id]) }}"  title="消息" class="iconfont icon-tongzhi">@if(Auth::user()->notification_count) {{ Auth::user()->notification_count }} @endif</a>
+            </li>
+
             <li class="layui-nav-item">
               <a class="fly-nav-avatar" href="javascript:;">
                 <cite class="layui-hide-xs">{{ Auth::user()->name }}</cite>
@@ -48,6 +49,7 @@
                 </form>
               </dl>
             </li>
+
             @endguest
           </ul>
         </div>

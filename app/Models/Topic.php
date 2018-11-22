@@ -28,6 +28,12 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**关联回复 */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
     public function getCreatedAtHumanAttribute()
     {
         return Carbon::createFromTimeString($this->attributes['updated_at'])->diffForHumans();

@@ -8,6 +8,7 @@ use App\Models\Topic;
 use Auth;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
+use App\Models\Reply;
 
 class TopicsController extends Controller
 {
@@ -18,7 +19,6 @@ class TopicsController extends Controller
 
     public function index()
     {
-        $topics = Topic::query()->where('is_top', true)->orderBy('updated_at', 'desc')->paginate(5);
         return view('topics.index', compact('topics'));
     }
 
@@ -28,7 +28,9 @@ class TopicsController extends Controller
             return redirect($topic->link(), 301);
         }
 
-        return view('topics.show', compact('topic'));
+		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->orderBy('updated_at','desc')->paginate(5);
+
+        return view('topics.show', compact('topic','replies'));
     }
 
     public function create(Topic $topic)
@@ -74,11 +76,6 @@ class TopicsController extends Controller
             $topics->where('category_id', $request->category_id);
         }
 
-        if ($request->order) {
-            $order = explode('=', $request->order);
-            $topic = $topics->withOrder($order[1] ? $order[1] : 'recent')->paginate($request->pageSize);
-
-        }
         $topic = $topics->withOrder('recent')->paginate($request->pageSize);
 
         return $topic;

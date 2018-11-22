@@ -16,11 +16,14 @@ Route::get('/', 'PagesController@index')->name('pages.index');
 Route::get('/users/{user}/home', 'UsersController@home')->name('users.home');
 
 /**分页 */
-Route::get('topics_page','TopicsController@topic');
-
+Route::get('/topics_page','TopicsController@topic');
+/**回复 */
+Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy','update']]);
 /**帖子 */
 Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
+/**SEO优化 */
 Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
+
 Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
@@ -46,3 +49,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/update_avatar/{user}', 'UsersController@update_avatar')->name('update_avatar');
 
 });
+

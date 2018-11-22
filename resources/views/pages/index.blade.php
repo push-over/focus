@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section ('title', '焦点社区')
+@section ('title', '喵酱社区')
 
 @section('content')
 <div class="layui-container">
@@ -61,11 +61,6 @@
                         <a href="{{ Request::url() }}?select=adopt">已结</a>
                         <span class="fly-mid"></span>
                         <a href="{{ Request::url() }}?select=is_top">精华</a>
-                        <span class="fly-filter-right layui-hide-xs">
-                            <a href="{{ Request::url() }}?order=recent" class="layui-this">按最新</a>
-                            <span class="fly-mid"></span>
-                            <a href="{{ Request::url() }}?order=default">按热议</a>
-                        </span>
                     </div>
 
                     <ul class="fly-list topic">
@@ -87,7 +82,7 @@
                     <h3 class="fly-panel-title">温馨通道</h3>
                     <ul class="fly-panel-main fly-list-static">
                         <li>
-                            <a href="http://fly.layui.com/jie/4281/" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
+                            <a href="" target="_blank">layui 的 GitHub 及 Gitee (码云) 仓库，欢迎Star</a>
                         </li>
 
                     </ul>
@@ -121,22 +116,22 @@
                         <!--<i class="layui-icon fly-loading">&#xe63d;</i>-->
                         <dd>
                             <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
+                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
                             </a>
                         </dd>
                         <dd>
                             <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
+                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
                             </a>
                         </dd>
                         <dd>
                             <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
+                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
                             </a>
                         </dd>
                         <dd>
                             <a href="user/home.html">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"><cite>贤心</cite><i>106次回答</i>
+                                <img src="/res/images/avatar/1.jpg"><cite>贤心</cite><i>106次回答</i>
                             </a>
                         </dd>
 
@@ -162,7 +157,7 @@
                         这里可作为广告区域
                     </div>
                     <div class="fly-panel-main">
-                        <a href="http://layim.layui.com/?from=fly" target="_blank" class="fly-zanzhu" time-limit="2017.09.25-2099.01.01"
+                        <a href="" target="_blank" class="fly-zanzhu" time-limit="2017.09.25-2099.01.01"
                             style="background-color: #5FB878;">LayIM 3.0 - layui 旗舰之作</a>
                     </div>
                 </div>
@@ -170,15 +165,15 @@
                 <div class="fly-panel fly-link">
                     <h3 class="fly-panel-title">友情链接</h3>
                     <dl class="fly-panel-main">
-                        <dd><a href="http://www.layui.com/" target="_blank">layui</a>
+                        <dd><a href="" target="_blank">layui</a>
                         <dd>
-                        <dd><a href="http://layim.layui.com/" target="_blank">WebIM</a>
+                        <dd><a href="" target="_blank">WebIM</a>
                         <dd>
-                        <dd><a href="http://layer.layui.com/" target="_blank">layer</a>
+                        <dd><a href="" target="_blank">layer</a>
                         <dd>
-                        <dd><a href="http://www.layui.com/laydate/" target="_blank">layDate</a>
+                        <dd><a href="" target="_blank">layDate</a>
                         <dd>
-                        <dd><a href="mailto:xianxin@layui-inc.com?subject=%E7%94%B3%E8%AF%B7Fly%E7%A4%BE%E5%8C%BA%E5%8F%8B%E9%93%BE"
+                        <dd><a href=""
                                 class="fly-link">申请友链</a>
                         <dd>
                     </dl>

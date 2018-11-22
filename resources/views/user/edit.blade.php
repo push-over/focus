@@ -57,8 +57,7 @@
                                 <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off"
                                     value="{{ $user->email }}" class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">如果您在邮箱已激活的情况下，变更了邮箱，需<a href="activate.html"
-                                    style="font-size: 12px; color: #4f99cf;">重新验证邮箱</a>。</div>
+
                         </div>
                         <div class="layui-form-item">
                             <label for="L_username" class="layui-form-label">昵称</label>
@@ -81,6 +80,7 @@
                                 <input type="text" id="L_city" name="city"  autocomplete="off" value="{{ $user->city }}"
                                     class="layui-input">
                             </div>
+                            <div class="layui-form-mid layui-word-aux">智能获取，如有不对请体谅</div >
                         </div>
                         <div class="layui-form-item layui-form-text">
                             <label for="L_sign" class="layui-form-label">签名</label>

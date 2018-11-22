@@ -4,10 +4,33 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    /**重写 */
+    use Notifiable {
+        notify as protected laravelNotify;
+    }
+
+    /**通知消息 */
+    public function notify($instance)
+    {
+        if($this->id == Auth::user()->id) {
+            return;
+        }
+
+        $this->increment('notification_count');
+        $this->laravelNotify($instance);
+    }
+
+    /**清除消息 */
+    public function markAsRead()
+    {
+        $this->notification_count = 0;
+        $this->save();
+        $this->unreadNotifications->markAsRead();
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -31,5 +54,11 @@ class User extends Authenticatable
     public function topics()
     {
         return $this->hasMany(Topic::class);
+    }
+
+    /**关联回复 */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
     }
 }

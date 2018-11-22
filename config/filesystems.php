@@ -65,7 +65,7 @@ return [
 
         'upload' => [
             'driver' => 'local',
-            'root' => public_path('upload/image/'.date('Ymd')),
+            'root' => public_path('uploads/avatar/'.date('Ymd')),
             'visibility' => 'public',
             'url' => env('APP_URL').'/uploads',
         ]

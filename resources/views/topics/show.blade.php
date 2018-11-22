@@ -25,8 +25,10 @@
                             <form action="{{ route('topics.destroy', $topic->id) }}" method="post">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
+                                @if(isset(Auth::user()->id))
                                 @if($topic->user_id === Auth::user()->id)
                                 <input  class="layui-btn layui-btn-xs jie-admin" onclick="alert('确定要删除吗?')" value="删除" type="submit" value="删除">
+                                @endif
                                 @endif
                             </form>
                             {{-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
@@ -57,8 +59,10 @@
                             @if($topic->reward)
                             <span style="padding-right: 10px; color: #FF7200">悬赏：{{ $topic->reward }}飞吻</span>
                             @endif
+                            @if(isset(Auth::user()->id))
                             @if($topic->user_id === Auth::user()->id)
                             <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a href="{{ route('topics.edit',$topic->id) }}">编辑此贴</a></span>
+                            @endif
                             @endif
                         </div>
                     </div>
@@ -73,96 +77,80 @@
                     </fieldset>
 
                     <ul class="jieda" id="jieda">
-                        <li data-id="111" class="jieda-daan">
-                            <a name="item-1111111111"></a>
-                            <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="">
-                                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                        alt=" ">
-                                </a>
-                                <div class="fly-detail-user">
-                                    <a href="" class="fly-link">
-                                        <cite>贤心</cite>
-                                        <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                        <i class="layui-badge fly-badge-vip">VIP3</i>
-                                    </a>
+                            @if (count($replies))
 
-                                    <span>(楼主)</span>
-                                    <!--
-                <span style="color:#5FB878">(管理员)</span>
-                <span style="color:#FF9E3F">（社区之光）</span>
-                <span style="color:#999">（该号已被封）</span>
-                -->
-                                </div>
+                                @foreach($replies as $reply)
+                                <li data-id="111" class="jieda-daan">
+                                    <a name="item-1111111111"></a>
+                                    <div class="detail-about detail-about-reply">
+                                        <a class="fly-avatar" href="">
+                                            <img src="{{ $reply->user->avatar }}"
+                                                alt=" ">
+                                        </a>
+                                        <div class="fly-detail-user">
+                                            <a href="" class="fly-link">
+                                                <cite>{{ $reply->user->name }}</cite>
 
-                                <div class="detail-hits">
-                                    <span>2017-11-30</span>
-                                </div>
+                                            </a>
+                                            @if($reply->topic->user_id == $reply->user->id)
+                                            <span>(楼主)</span>
+                                            @endif
+                                            <!--
+                                                <span style="color:#5FB878">(管理员)</span>
+                                                <span style="color:#FF9E3F">（社区之光）</span>
+                                                <span style="color:#999">（该号已被封）</span>
+                                                -->
+                                        </div>
 
-                                <i class="iconfont icon-caina" title="最佳答案"></i>
-                            </div>
-                            <div class="detail-body jieda-body photos">
-                                <p>香菇那个蓝瘦，这是一条被采纳的回帖</p>
-                            </div>
-                            <div class="jieda-reply">
-                                <span class="jieda-zan zanok" type="zan">
-                                    <i class="iconfont icon-zan"></i>
-                                    <em>66</em>
-                                </span>
-                                <span type="reply">
-                                    <i class="iconfont icon-svgmoban53"></i>
-                                    回复
-                                </span>
-                                <div class="jieda-admin">
-                                    <span type="edit">编辑</span>
-                                    <span type="del">删除</span>
-                                    <!-- <span class="jieda-accept" type="accept">采纳</span> -->
-                                </div>
-                            </div>
-                        </li>
+                                        <div class="detail-hits">
+                                            <span>{{ $reply->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        @if($reply->adopt)
+                                        <i class="iconfont icon-caina" title="最佳答案"></i>
+                                        @endif
+                                    </div>
+                                    <div class="detail-body jieda-body photos">
+                                        <p>{!! $reply->content !!}</p>
+                                    </div>
+                                    <div class="jieda-reply">
+                                        <span class="jieda-zan zanok" type="zan">
+                                            <i class="iconfont icon-zan"></i>
+                                            <em>5</em>
+                                        </span>
+                                        <span type="reply">
+                                            <i class="iconfont icon-svgmoban53"></i>
+                                            回复
+                                        </span>
+                                        <div class="jieda-admin">
+                                            <span type="edit">编辑</span>
+                                            <span type="del">删除</span>
+                                            @if(!$reply->adopt && !$reply->topic->adopt)
+                                            <span class="jieda-accept" type="accept">采纳</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </li>
+                                @endforeach
 
-                        <li data-id="111">
-                            <a name="item-1111111111"></a>
-                            <div class="detail-about detail-about-reply">
-                                <a class="fly-avatar" href="">
-                                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                        alt=" ">
-                                </a>
-                                <div class="fly-detail-user">
-                                    <a href="" class="fly-link">
-                                        <cite>贤心</cite>
-                                    </a>
-                                </div>
-                                <div class="detail-hits">
-                                    <span>2017-11-30</span>
-                                </div>
-                            </div>
-                            <div class="detail-body jieda-body photos">
-                                <p>蓝瘦那个香菇，这是一条没被采纳的回帖</p>
-                            </div>
-                            <div class="jieda-reply">
-                                <span class="jieda-zan" type="zan">
-                                    <i class="iconfont icon-zan"></i>
-                                    <em>0</em>
-                                </span>
-                                <span type="reply">
-                                    <i class="iconfont icon-svgmoban53"></i>
-                                    回复
-                                </span>
-                                <div class="jieda-admin">
-                                    <span type="edit">编辑</span>
-                                    <span type="del">删除</span>
-                                    <span class="jieda-accept" type="accept">采纳</span>
-                                </div>
-                            </div>
-                        </li>
+                                @else
+                                <!-- 无数据时 -->
+                               <li class="fly-none">消灭零回复</li>
+                               @endif
+                            </ul>
 
-                        <!-- 无数据时 -->
-                        <!-- <li class="fly-none">消灭零回复</li> -->
-                    </ul>
+
+                        <div id="pull_right" style="text-align: center">
+                            <div class="pull-right">
+                                {{ $replies->render() }}
+                            </div>
+                        </div>
+
+
 
                     <div class="layui-form layui-form-pane">
-                        <form action="/jie/reply/" method="post">
+                        @if(Auth::check())
+                        <form action="{{ route('replies.store') }}" method="POST" accept-charset="UTF-8">
+                            {{ csrf_field() }}
                             <div class="layui-form-item layui-form-text">
                                 <a name="comment"></a>
                                 <div class="layui-input-block">
@@ -171,10 +159,17 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <input type="hidden" name="jid" value="123">
-                                <button class="layui-btn" lay-filter="*" lay-submit>提交回复</button>
+                                <input type="hidden" name="topic_id" value="{{ $topic->id }}">
+                                <button class="layui-btn" onclick="layer.msg('已回复', {icon:1, shade: 0.1, time:0})" lay-filter="*">提交回复</button>
                             </div>
                         </form>
+                        @else
+                        <div style="text-align: center">
+                                <div>
+                                    要回复请 <a href="/login"><b> 登录</b></a>
+                                </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -212,7 +207,157 @@
         </div>
     </div>
 @endsection
-
+@section('styles')
+<style type="text/css">
+    #pull_right{
+        text-align:center;
+    }
+    .pull-right {
+        /*float: left!important;*/
+    }
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+    .pagination > li {
+        display: inline;
+    }
+    .pagination > li > a,
+    .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #428bca;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .pagination > li:first-child > a,
+    .pagination > li:first-child > span {
+        margin-left: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+    .pagination > li:last-child > a,
+    .pagination > li:last-child > span {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    .pagination > li > a:hover,
+    .pagination > li > span:hover,
+    .pagination > li > a:focus,
+    .pagination > li > span:focus {
+        color: #2a6496;
+        background-color: #eee;
+        border-color: #ddd;@section('styles')
+<style type="text/css">
+    #pull_right{
+        text-align:center;
+    }
+    .pull-right {
+        /*float: left!important;*/
+    }
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+    .pagination > li {
+        display: inline;
+    }
+    .pagination > li > a,
+    .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.42857143;
+        color: #428bca;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+    .pagination > li:first-child > a,
+    .pagination > li:first-child > span {
+        margin-left: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+    .pagination > li:last-child > a,
+    .pagination > li:last-child > span {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    .pagination > li > a:hover,
+    .pagination > li > span:hover,
+    .pagination > li > a:focus,
+    .pagination > li > span:focus {
+        color: #2a6496;
+        background-color: #eee;
+        border-color: #ddd;
+    }
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #009688;
+        border-color: #428bca;
+    }
+    .pagination > .disabled > span,
+    .pagination > .disabled > span:hover,
+    .pagination > .disabled > span:focus,
+    .pagination > .disabled > a,
+    .pagination > .disabled > a:hover,
+    .pagination > .disabled > a:focus {
+        color: #777;
+        cursor: not-allowed;
+        background-color: #fff;
+        border-color: #ddd;
+    }
+    .clear{
+        clear: both;
+    }
+</style>
+@endsection
+    }
+    .pagination > .active > a,
+    .pagination > .active > span,
+    .pagination > .active > a:hover,
+    .pagination > .active > span:hover,
+    .pagination > .active > a:focus,
+    .pagination > .active > span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #009688;
+        border-color: #428bca;
+    }
+    .pagination > .disabled > span,
+    .pagination > .disabled > span:hover,
+    .pagination > .disabled > span:focus,
+    .pagination > .disabled > a,
+    .pagination > .disabled > a:hover,
+    .pagination > .disabled > a:focus {
+        color: #777;
+        cursor: not-allowed;
+        background-color: #fff;
+        border-color: #ddd;
+    }
+    .clear{
+        clear: both;
+    }
+</style>
+@endsection
 
 @section('ScriptAfterJs')
     <script>
