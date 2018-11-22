@@ -1,8 +1,9 @@
 <div class="fly-header layui-bg-black">
         <div class="layui-container">
-          <a class="fly-logo" href="/" >
-            <img src="/res/images/logo.png" alt="layui">
+          <a class="fly-logo" href="/" style="background-color:#fff;border-radius:5px">
+            <img style="width:135px;height:37px" src="/res/images/logo.png" alt="layui">
           </a>
+
           <ul class="layui-nav fly-nav layui-hide-xs">
 
             @foreach($category as $c)

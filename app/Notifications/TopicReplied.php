@@ -45,7 +45,7 @@ class TopicReplied extends Notification
             'topic_link' => $link,
             'topic_id' => $topic->id,
             'topic_title' => $topic->title,
-            'reply_created' => date('Y-m-d H:i:s'),
+            'reply_created' => date('Y-m-d H:i:s')->diffForHumans(),
         ];
     }
 

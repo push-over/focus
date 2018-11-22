@@ -52,7 +52,8 @@
                                 <a href="{{ route('users.home', $notification->data['user_id']) }}" target="_blank"><cite>{{ $notification->data['user_name'] }}</cite></a>回答了您的求解<a
                                     target="_blank" href="{{ route('topics.show', $notification->data['topic_id']) }}"><cite>{{ $notification->data['topic_title'] }}</cite></a>
                             </blockquote>
-                            <p><span>{{ $notification->data['reply_created'] }}</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
+                            <p><span>{{ $notification->data['reply_created'] }}</span></p>
+                            <br>
                         </li>
                     @endforeach
 
@@ -60,7 +61,8 @@
                         <blockquote class="layui-elem-quote">
                             系统消息：欢迎使用 喵酱社区
                         </blockquote>
-                        <p><span>{{ $user->created_at->diffForHumans() }}</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
+                        <p><span>{{ $user->created_at->diffForHumans() }}</span></p>
+                        <br>
                     </li>
                 </ul>
 
