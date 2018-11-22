@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\View\View;
 use Carbon\Carbon;
 use DB;
+use Cache;
 
 class UserWeekComposer
 {
@@ -13,12 +14,16 @@ class UserWeekComposer
 
     public function __construct(User $user)
     {
-        $this->user =  User::query()->with('replies')
-        ->whereHas('replies', function ($query) {
-            $query->where('created_at','>=',Carbon::now()->startOfWeek())
-            ->where('created_at','<=',Carbon::now()->endOfWeek());
-        })
-        ->orderBy(DB::raw('RAND()'))->paginate(12);
+        $users = Cache::remember('week_user', 1440, function(){
+            return User::query()->with('replies')
+            ->whereHas('replies', function ($query) {
+                $query->where('created_at','>=',Carbon::now()->startOfWeek())
+                ->where('created_at','<=',Carbon::now()->endOfWeek());
+            })
+            ->orderBy(DB::raw('RAND()'))->paginate(12);
+        });
+
+        $this->user = $users;
     }
 
     public function compose(View $view)

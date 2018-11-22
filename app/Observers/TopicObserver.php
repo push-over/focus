@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Jobs\TranslateSlug;
 use App\Models\Topic;
+use Cache;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -22,6 +23,7 @@ class TopicObserver
         if (!$topic->slug) {
             dispatch(new TranslateSlug($topic));
         }
+        Cache::forget('topic');
     }
 
     public function updated()

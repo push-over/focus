@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Reply;
 use App\Notifications\TopicReplied;
+use Cache;
 
 // creating, created, updating, updated, saving,
 // saved,  deleting, deleted, restoring, restored
@@ -17,6 +18,8 @@ class ReplyObserver
 
     public function created(Reply $reply)
     {
+        Cache::forget('week_topic');
+        Cache::forget('week_user');
         $topic = $reply->topic;
         $reply->topic->increment('reply_count', 1);
         /**触发通知 */

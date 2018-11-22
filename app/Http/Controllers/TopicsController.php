@@ -9,6 +9,7 @@ use Auth;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
 use App\Models\Reply;
+use Cache;
 
 class TopicsController extends Controller
 {
@@ -77,22 +78,24 @@ class TopicsController extends Controller
 
     public function topic(Request $request)
     {
-        $topics = Topic::query()->with(['user', 'category']);
-        if ($request->category_id) {
-            $topics->where('category_id', $request->category_id);
-        }
-        if($request->select) {
-            $select =  explode('=',$request->select);
-            if($select[1] === 'adopt') {
-                $topics->where('adopt',true);
-            }elseif($select[1] === 'no_adopt') {
-                $topics->where('adopt',false);
-            }elseif($select[1] === 'good_topic') {
-                $topics->where('good_topic',true);
-            }
-        }
+        $topic = Cache::remember('topic', 1440, function(){
+            $topics = Topic::query()->with(['user', 'category']);
+                if ($request->category_id) {
+                    $topics->where('category_id', $request->category_id);
+                }
+                if($request->select) {
+                    $select =  explode('=',$request->select);
+                    if($select[1] === 'adopt') {
+                        $topics->where('adopt',true);
+                    }elseif($select[1] === 'no_adopt') {
+                        $topics->where('adopt',false);
+                    }elseif($select[1] === 'good_topic') {
+                        $topics->where('good_topic',true);
+                    }
+                }
 
-        $topic = $topics->withOrder('recent')->paginate($request->pageSize);
+               return  $topic = $topics->withOrder('recent')->paginate($request->pageSize);
+        });
 
         return $topic;
     }
