@@ -76,7 +76,51 @@
 
                     <ul class="jieda" id="jieda">
                             @if (count($replies))
+                            @if(count($adopt))
+                            <li data-id="111" class="jieda-daan">
+                                    <a name="item-1111111111"></a>
+                                    <div class="detail-about detail-about-reply">
+                                        <a class="fly-avatar" href="{{ route('users.home',['user'=> $adopt->user->id]) }}">
+                                            <img src="{{ $adopt->user->avatar }}"
+                                                alt="{{ $adopt->user->name }}">
+                                        </a>
+                                        <div class="fly-detail-user">
+                                            <a href="{{ route('users.home',['user'=> $adopt->user->id]) }}" class="fly-link">
+                                                <cite>{{ $adopt->user->name }}</cite>
 
+                                            </a>
+                                            @if($adopt->topic->user_id == $adopt->user->id)
+                                            <span>(楼主)</span>
+                                            @endif
+                                            <!--
+                                                <span style="color:#5FB878">(管理员)</span>
+                                                <span style="color:#FF9E3F">（社区之光）</span>
+                                                <span style="color:#999">（该号已被封）</span>
+                                                -->
+                                        </div>
+
+                                        <div class="detail-hits">
+                                            <span>{{ $adopt->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        @if($adopt->adopt)
+                                        <i class="iconfont icon-caina" title="最佳答案"></i>
+                                        @endif
+                                    </div>
+                                    <div class="detail-body jieda-body photos">
+                                        <p>{!! $adopt->content !!}</p>
+                                    </div>
+                                    <div class="jieda-reply">
+                                        <span class="jieda-zan zanok" type="zan">
+                                            <i class="iconfont icon-zan"></i>
+                                            <em>5</em>
+                                        </span>
+                                        <span type="reply">
+                                            <i class="iconfont icon-svgmoban53"></i>
+                                            回复
+                                        </span>
+                                    </div>
+                                </li>
+                                @endif
                                 @foreach($replies as $reply)
                                 <li data-id="111" class="jieda-daan">
                                     <a name="item-1111111111"></a>

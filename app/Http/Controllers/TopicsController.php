@@ -33,9 +33,8 @@ class TopicsController extends Controller
         if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
             return redirect($topic->link(), 301);
         }
-
+        $topic->increment('view_count',1);
 		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',false)->orderBy('updated_at','desc')->paginate(5);
-
         $adopt = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',true)->orderBy('updated_at','desc')->get();
         return view('topics.show', compact('topic','replies','adopt'));
     }
