@@ -50,7 +50,7 @@
         <div class="layui-tab layui-tab-brief" lay-filter="user">
             <ul class="layui-tab-title" id="LAY_mine">
                 <li data-type="mine-jie" lay-id="index" class="layui-this">我发的帖（<span>{{ count(Auth::user()->topics )}}</span>）</li>
-                <li data-type="collection" data-url="/collection/find/" lay-id="collection">我收藏的帖（<span>16</span>）</li>
+                <li data-type="collection" data-url="/collection/find/" lay-id="collection">我收藏的帖（<span>{{ count(Auth::user()->coupons) }}</span>）</li>
             </ul>
             <div class="layui-tab-content" style="padding: 20px 0;">
                 <div class="layui-tab-item layui-show">
@@ -68,9 +68,12 @@
                 </div>
                 <div class="layui-tab-item">
                     <ul class="mine-view jie-row">
+                        @foreach($coupons as $coupon)
                         <li>
-                            <a class="jie-title" href="" target="_blank">基于 layui 的极简社区页面模版</a>
+                            <a class="jie-title" href="{{ $coupon->topic->link() }}" target="_blank">{{ $coupon->topic->title }}</a>
                             <i>收藏于23小时前</i> </li>
+
+                        @endforeach
                     </ul>
                     <div id="LAY_page1"></div>
                 </div>

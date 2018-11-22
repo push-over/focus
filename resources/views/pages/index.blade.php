@@ -82,9 +82,14 @@
                     <h3 class="fly-panel-title">温馨通道</h3>
                     <ul class="fly-panel-main fly-list-static">
                         <li>
-                            <a href="" target="_blank">我的 的 GitHub 仓库，欢迎Star</a>
+                            <a href="https://github.com/push-over" target="_blank">我的 的 GitHub 仓库，欢迎Star</a>
                         </li>
-
+                        <li>
+                            <a href="http://www.lovelp.xin/" target="_blank">我的 的 商城 ,欢迎评价</a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/push-over/focus" target="_blank">论坛源码，欢迎Start</a>
+                        </li>
                     </ul>
                 </div>
 

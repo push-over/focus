@@ -27,10 +27,20 @@
                                 {{ method_field('DELETE') }}
                                 @if(isset(Auth::user()->id))
                                 @if($topic->user_id === Auth::user()->id)
-                                <input  class="layui-btn layui-btn-xs jie-admin" onclick="alert('确定要删除吗?')" value="删除" type="submit" value="删除">
+                                <input  class="layui-btn layui-btn-xs jie-admin" onclick="confirm('确定要删除吗?')" value="删除" type="submit">
                                 @endif
                                 @endif
                             </form>
+
+                            @if(isset(Auth::user()->id))
+                                @if(!count($coupon))
+                                <form action="{{ route('users.coupons') }}" method="post">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="topic_id" value="{{ $topic->id }}">
+                                        <input  class="layui-btn layui-btn-xs jie-admin" onclick="confirm('确定要收藏吗?')" value="收藏" type="submit">
+                                </form>
+                                @endif
+                            @endif
                             {{-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="1">置顶</span>
                             <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>
 
@@ -155,10 +165,10 @@
                                         <p>{!! $reply->content !!}</p>
                                     </div>
                                     <div class="jieda-reply">
-                                        <span class="jieda-zan zanok" type="zan">
+                                        {{-- <span class="jieda-zan zanok" type="zan">
                                             <i class="iconfont icon-zan"></i>
                                             <em>5</em>
-                                        </span>
+                                        </span> --}}
                                         <span type="reply">
                                             <i class="iconfont icon-svgmoban53"></i>
                                             回复
@@ -170,7 +180,7 @@
                                                 {{-- <span type="edit">编辑</span> --}}
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="删除" onclick="alert('确定要删除吗?')">
+                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="删除" onclick="confirm('确定要删除吗?')">
                                                 </form>
                                                 @endcan
 
@@ -179,7 +189,7 @@
                                                 <form action="{{ route('replies.destroy', $reply->id) }}" method="POST">
                                                     {{ csrf_field() }}
                                                     {{ method_field('PUT') }}
-                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="采纳" onclick="alert('确定要采纳吗?')">
+                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="采纳" onclick="confirm('确定要采纳吗?')">
                                                 </form>
                                                 @endif
                                                 @endcan

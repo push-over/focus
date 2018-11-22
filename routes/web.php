@@ -48,5 +48,6 @@ Route::group(['middleware' => 'auth'], function () {
     /**头像 */
     Route::post('/update_avatar/{user}', 'UsersController@update_avatar')->name('update_avatar');
 
+    Route::post('/coupons','CouponController@store')->name('users.coupons');
 });
 

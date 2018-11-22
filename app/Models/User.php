@@ -61,4 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reply::class);
     }
+
+    /**关联收藏 */
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
 }

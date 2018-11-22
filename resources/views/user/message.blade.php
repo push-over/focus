@@ -47,7 +47,7 @@
                 <!--<div class="fly-none">您暂时没有最新消息</div>-->
                 <ul class="mine-msg">
                     @foreach ($notifications as $notification)
-                    <li data-id="123">
+                        <li data-id="123">
                             <blockquote class="layui-elem-quote">
                                 <a href="{{ route('users.home', $notification->data['user_id']) }}" target="_blank"><cite>{{ $notification->data['user_name'] }}</cite></a>回答了您的求解<a
                                     target="_blank" href="{{ route('topics.show', $notification->data['topic_id']) }}"><cite>{{ $notification->data['topic_title'] }}</cite></a>

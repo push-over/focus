@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use App\Models\Topic;
 use Auth;
+use App\Models\Coupon;
 use App\Handlers\ImageUploadHandler;
 use Illuminate\Http\Request;
 use App\Models\Reply;
@@ -31,14 +32,16 @@ class TopicsController extends Controller
 
     public function show(Topic $topic,Request $request)
     {
+        $topic->increment('view_count',1);
         if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
             return redirect($topic->link(), 301);
         }
-        $topic->increment('view_count',1);
+
+        $topic_id = explode('/',$_SERVER['REQUEST_URI']);
 		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',false)->orderBy('updated_at','desc')->paginate(5);
         $adopt = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',true)->orderBy('updated_at','desc')->first();
-
-        return view('topics.show', compact('topic','replies','adopt'));
+        $coupon = Coupon::query()->where('user_id',Auth::user()->id)->where('topic_id',$topic->id)->get();
+        return view('topics.show', compact('topic','replies','adopt','coupon'));
     }
 
     public function create(Topic $topic)
@@ -78,7 +81,7 @@ class TopicsController extends Controller
 
     public function topic(Request $request)
     {
-        $topic = Cache::remember('topic', 1440, function(){
+        $topic = Cache::remember('topic', 1440, function() use($request){
             $topics = Topic::query()->with(['user', 'category']);
                 if ($request->category_id) {
                     $topics->where('category_id', $request->category_id);

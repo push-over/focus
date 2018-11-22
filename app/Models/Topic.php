@@ -34,6 +34,12 @@ class Topic extends Model
         return $this->hasMany(Reply::class);
     }
 
+    /**关联收藏 */
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
     public function getCreatedAtHumanAttribute()
     {
         return Carbon::createFromTimeString($this->attributes['updated_at'])->diffForHumans();

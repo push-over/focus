@@ -26,8 +26,8 @@ class UsersController extends Controller
     {
         $this->authorize('update',$user);
         $topics = $user->topics()->recent()->paginate(20);
-
-        return view('user.index', compact('user','topics'));
+        $coupons = $user->coupons()->orderBy('topic_id','desc')->paginate(20);
+        return view('user.index', compact('user','topics','coupons'));
     }
 
     public function home(User $user)
