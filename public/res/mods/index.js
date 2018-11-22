@@ -31,7 +31,10 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
         // var tag_token = $(".tag_token").val();
         if(route != 'users' && route != 'topics') {
 
-
+            var s = strUrl.split("?");
+            var s1 = s[1] ? s[1] : '';
+            var se = s1.replace(reg,"");
+            var select = se ? se : '';
             window.onload = function () {
 
                 loadData() //请求数据
@@ -52,7 +55,7 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
                         "pageIndex": page,
                         "pageSize": limit,
                         "category_id": id,
-                        // 'order': o,
+                        'select': select,
                         // '_token': tag_token
                     },
                     success: function (ret) {
@@ -316,7 +319,8 @@ layui.define(['layer', 'laytpl', 'form', 'element', 'upload', 'util', 'laypage']
         var loadIndex = layer.load(1, {
             shade: 0.8
         });
-        fly.json('../json/signin.js', function (res) { //实际使用，请将 url 改为真实接口
+
+        fly.json('', function (res) { //实际使用，请将 url 改为真实接口
             var tpl = $(['<div class="layui-tab layui-tab-brief" style="margin: 5px 0 0;">', '<ul class="layui-tab-title">', '<li class="layui-this">最新签到</li>', '<li>今日最快</li>', '<li>总签到榜</li>', '</ul>', '<div class="layui-tab-content fly-signin-list" id="LAY_signin_list">', '<ul class="layui-tab-item layui-show"></ul>', '<ul class="layui-tab-item">2</ul>', '<ul class="layui-tab-item">3</ul>', '</div>', '</div>'].join('')),
                 signinItems = tpl.find('.layui-tab-item');
 

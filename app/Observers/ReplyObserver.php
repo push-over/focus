@@ -29,4 +29,12 @@ class ReplyObserver
             $reply->topic->decrement('reply_count', 1);
         }
     }
+
+    public function updated(Reply $reply)
+    {
+        if($reply->topic->adopt == 1) {
+            return ;
+        }
+        $reply->topic->increment('adopt', 1);
+    }
 }

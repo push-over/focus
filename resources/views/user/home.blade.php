@@ -13,7 +13,7 @@
         @else
         <i class="iconfont icon-nv"></i>
         @endif
-        <i class="layui-badge fly-badge-vip">VIP3</i>
+        {{-- <i class="layui-badge fly-badge-vip">VIP3</i> --}}
         <!--
     <span style="color:#c00;">（管理员）</span>
     <span style="color:#5FB878;">（社区之光）</span>
@@ -21,10 +21,10 @@
     -->
     </h1>
 
-    <p style="padding: 10px 0; color: #5FB878;">认证信息：{{ $user->provider }}</p>
+    {{-- <p style="padding: 10px 0; color: #5FB878;">认证信息：{{ $user->provider }}</p> --}}
 
     <p class="fly-home-info">
-        <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">66666 飞吻</span>
+        <i class="iconfont icon-kiss" title="飞吻"></i><span style="color: #FF7200;">{{ $user->love }} 飞吻</span>
         <i class="iconfont icon-shijian"></i><span>{{ $user->created_at->diffForHumans() }} 加入</span>
         <i class="iconfont icon-chengshi"></i><span>来自{{ $user->city }}</span>
     </p>
@@ -69,7 +69,7 @@
                     <li>
                         <p>
                             <span>{{ $replie->updated_at->diffForHumans() }}</span>
-                            在<a href="" target="_blank">{{ $replie->topic->title }}</a>中回答：
+                            在<a href="{{ $replie->topic->link() }}" target="_blank">{{ $replie->topic->title }}</a>中回答：
                         </p>
                         <div class="home-dacontent">
                             {!! $replie->content !!}

@@ -54,13 +54,13 @@
                 <div class="fly-panel" style="margin-bottom: 0;">
                     <input type="hidden" class="tag_token" name="_token" value="{{ csrf_token() }}">
                     <div class="fly-panel-title fly-filter topic-order">
-                        <a href=""  class="layui-this">综合</a>
+                        <a href="{{ Request::url() }}?select=" @if(@!$_GET['select'])  class="layui-this" @endif>综合</a>
                         <span class="fly-mid"></span>
-                        <a href="{{ Request::url() }}?select=no_adopt">未结</a>
+                        <a href="{{ Request::url() }}?select=no_adopt" @if(@$_GET['select'] == 'no_adopt')  class="layui-this" @endif>未结</a>
                         <span class="fly-mid"></span>
-                        <a href="{{ Request::url() }}?select=adopt">已结</a>
+                        <a href="{{ Request::url() }}?select=adopt" @if(@$_GET['select'] == 'adopt')  class="layui-this" @endif>已结</a>
                         <span class="fly-mid"></span>
-                        <a href="{{ Request::url() }}?select=is_top">精华</a>
+                        <a href="{{ Request::url() }}?select=good_topic" @if(@$_GET['select'] == 'good_topic')  class="layui-this" @endif>精华</a>
                     </div>
 
                     <ul class="fly-list topic">
@@ -89,7 +89,7 @@
                 </div>
 
 
-                <div class="fly-panel fly-signin">
+                {{-- <div class="fly-panel fly-signin">
                     <div class="fly-panel-title">
                         签到
                         <i class="fly-mid"></i>
@@ -108,7 +108,7 @@
               <span>获得了<cite>20</cite>飞吻</span>
               -->
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
                     <h3 class="fly-panel-title">回贴周榜</h3>

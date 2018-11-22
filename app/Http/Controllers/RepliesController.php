@@ -25,10 +25,12 @@ class RepliesController extends Controller
 		return redirect()->to($reply->topic->link());
 	}
 
-	public function update(ReplyRequest $request, Reply $reply)
+	public function update(ReplyRequest $request, Reply $reply,Topic $topic)
 	{
 		$this->authorize('update', $reply);
-		$reply->update($request->all());
+		$reply->update([
+            'adopt' => 1,
+        ]);
 
 		return redirect()->to($reply->topic->link());
 	}

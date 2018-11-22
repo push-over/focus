@@ -59,13 +59,13 @@
       <div class="fly-panel fly-column">
             <div class="layui-container">
               <ul class="layui-clear">
-                <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
-                <li><a href="{{ route('topics.index') }}">提问</a></li>
-                <li><a href="{{ route('topics.index') }}">分享<span class="layui-badge-dot"></span></a></li>
-                <li><a href="{{ route('topics.index') }}">讨论</a></li>
-                <li><a href="{{ route('topics.index') }}">建议</a></li>
-                <li><a href="{{ route('topics.index') }}">公告</a></li>
-                <li><a href="{{ route('topics.index') }}">动态</a></li>
+                <li @if(@!$_GET['type'])class="layui-this" @endif class="layui-hide-xs"><a href="/">首页</a></li>
+                <li @if(@$_GET['type']=='1')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=1"  >提问</a></li>
+                <li @if(@$_GET['type']=='2')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=2" >分享<span class="layui-badge-dot"></span></a></li>
+                <li @if(@$_GET['type']=='3')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=3" >讨论</a></li>
+                <li @if(@$_GET['type']=='4')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=4" >建议</a></li>
+                <li @if(@$_GET['type']=='5')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=5" >公告</a></li>
+                <li @if(@$_GET['type']=='6')class="layui-this" @endif><a href="{{ route('topics.index') }}?type=6" >动态</a></li>
                 <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
 
                 <!-- 用户登入后显示 -->

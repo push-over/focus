@@ -50,8 +50,6 @@
                         <div class="fly-detail-user">
                             <a href="{{ route('users.home',['user'=>$topic->user->id]) }}" class="fly-link">
                                 <cite>{{ $topic->user->name }}</cite>
-                                {{-- <i class="iconfont icon-renzheng" title="认证信息：@{{ rows.user.approve }}"></i>
-                                <i class="layui-badge fly-badge-vip">VIP3</i> --}}
                             </a>
                             <span>{{ $topic->created_at_human }}</span>
                         </div>
@@ -83,12 +81,12 @@
                                 <li data-id="111" class="jieda-daan">
                                     <a name="item-1111111111"></a>
                                     <div class="detail-about detail-about-reply">
-                                        <a class="fly-avatar" href="">
+                                        <a class="fly-avatar" href="{{ route('users.home',['user'=> $reply->user->id]) }}">
                                             <img src="{{ $reply->user->avatar }}"
-                                                alt=" ">
+                                                alt="{{ $reply->user->name }}">
                                         </a>
                                         <div class="fly-detail-user">
-                                            <a href="" class="fly-link">
+                                            <a href="{{ route('users.home',['user'=> $reply->user->id]) }}" class="fly-link">
                                                 <cite>{{ $reply->user->name }}</cite>
 
                                             </a>
@@ -123,20 +121,25 @@
                                         </span>
 
                                             <div class="jieda-admin">
-                                                    @can('destroy', $reply)
-                                                    <form action="{{ route('replies.destroy', $reply->id) }}" method="post">
+                                                @can('destroy', $reply)
+                                                <form style="float:left" action="{{ route('replies.destroy', $reply->id) }}" method="post">
                                                 {{-- <span type="edit">编辑</span> --}}
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <span onclick="layer.confirm('确认删除该话题么？');">删除</span>
+                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="删除" onclick="alert('确定要删除吗?')">
                                                 </form>
                                                 @endcan
+
+                                                @can('update',$topic)
                                                 @if(!$reply->adopt && !$reply->topic->adopt)
-                                                <span class="jieda-accept" type="accept">采纳</span>
+                                                <form action="{{ route('replies.destroy', $reply->id) }}" method="POST">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('PUT') }}
+                                                    <input type="submit" class="layui-btn layui-btn-xs jie-admin" value="采纳" onclick="alert('确定要采纳吗?')">
+                                                </form>
                                                 @endif
+                                                @endcan
                                             </div>
-
-
                                     </div>
                                 </li>
                                 @endforeach
@@ -264,82 +267,7 @@
     .pagination > li > span:focus {
         color: #2a6496;
         background-color: #eee;
-        border-color: #ddd;@section('styles')
-<style type="text/css">
-    #pull_right{
-        text-align:center;
-    }
-    .pull-right {
-        /*float: left!important;*/
-    }
-    .pagination {
-        display: inline-block;
-        padding-left: 0;
-        margin: 20px 0;
-        border-radius: 4px;
-    }
-    .pagination > li {
-        display: inline;
-    }
-    .pagination > li > a,
-    .pagination > li > span {
-        position: relative;
-        float: left;
-        padding: 6px 12px;
-        margin-left: -1px;
-        line-height: 1.42857143;
-        color: #428bca;
-        text-decoration: none;
-        background-color: #fff;
-        border: 1px solid #ddd;
-    }
-    .pagination > li:first-child > a,
-    .pagination > li:first-child > span {
-        margin-left: 0;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-    }
-    .pagination > li:last-child > a,
-    .pagination > li:last-child > span {
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-    }
-    .pagination > li > a:hover,
-    .pagination > li > span:hover,
-    .pagination > li > a:focus,
-    .pagination > li > span:focus {
-        color: #2a6496;
-        background-color: #eee;
         border-color: #ddd;
-    }
-    .pagination > .active > a,
-    .pagination > .active > span,
-    .pagination > .active > a:hover,
-    .pagination > .active > span:hover,
-    .pagination > .active > a:focus,
-    .pagination > .active > span:focus {
-        z-index: 2;
-        color: #fff;
-        cursor: default;
-        background-color: #009688;
-        border-color: #428bca;
-    }
-    .pagination > .disabled > span,
-    .pagination > .disabled > span:hover,
-    .pagination > .disabled > span:focus,
-    .pagination > .disabled > a,
-    .pagination > .disabled > a:hover,
-    .pagination > .disabled > a:focus {
-        color: #777;
-        cursor: not-allowed;
-        background-color: #fff;
-        border-color: #ddd;
-    }
-    .clear{
-        clear: both;
-    }
-</style>
-@endsection
     }
     .pagination > .active > a,
     .pagination > .active > span,

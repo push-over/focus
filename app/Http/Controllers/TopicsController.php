@@ -17,8 +17,14 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show', 'topic']]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $topic = Topic::query();
+        if(isset($request->type) && $request->type && $request->type <=7)
+        {
+            $topic->where('type',$request->type);
+        }
+        $topics = $topic->withOrder($request->order)->paginate(15);
         return view('topics.index', compact('topics'));
     }
 
@@ -28,9 +34,10 @@ class TopicsController extends Controller
             return redirect($topic->link(), 301);
         }
 
-		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->orderBy('updated_at','desc')->paginate(5);
+		$replies = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',false)->orderBy('updated_at','desc')->paginate(5);
 
-        return view('topics.show', compact('topic','replies'));
+        $adopt = Reply::query()->with(['user','topic'])->where('topic_id',$topic->id)->where('adopt',true)->orderBy('updated_at','desc')->get();
+        return view('topics.show', compact('topic','replies','adopt'));
     }
 
     public function create(Topic $topic)
@@ -70,10 +77,19 @@ class TopicsController extends Controller
 
     public function topic(Request $request)
     {
-
         $topics = Topic::query()->with(['user', 'category']);
         if ($request->category_id) {
             $topics->where('category_id', $request->category_id);
+        }
+        if($request->select) {
+            $select =  explode('=',$request->select);
+            if($select[1] === 'adopt') {
+                $topics->where('adopt',true);
+            }elseif($select[1] === 'no_adopt') {
+                $topics->where('adopt',false);
+            }elseif($select[1] === 'good_topic') {
+                $topics->where('good_topic',true);
+            }
         }
 
         $topic = $topics->withOrder('recent')->paginate($request->pageSize);
