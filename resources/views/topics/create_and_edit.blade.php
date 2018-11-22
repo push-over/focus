@@ -63,13 +63,23 @@
                                             <label class="layui-form-label">所属专栏</label>
                                             <div class="layui-input-inline" style="width: 190px;">
                                                 <select @if($topic->id) disabled @endif lay-verify="required" name="type" >
-                                                    <option value="{{ $topic->type }}">{{ $topic->type }}</option>
-                                                    <option value="提问">提问</option>
-                                                    <option value="分享">分享</option>
-                                                    <option value="讨论">讨论</option>
-                                                    <option value="建议">建议</option>
-                                                    <option disabled value="公告">公告</option>
-                                                    <option disabled value="动态">动态</option>
+                                                    <option value="{{ $topic->type }}">
+                                                    @if($topic->type ===1)
+                                                        提问
+                                                    @elseif($topic->type === 2)
+                                                        分享
+                                                    @elseif($topic->type === 3)
+                                                        讨论
+                                                    @elseif($topic->type === 4)
+                                                        建议
+                                                    @endif
+                                                    </option>
+                                                    <option value="1">提问</option>
+                                                    <option value="2">分享</option>
+                                                    <option value="3">讨论</option>
+                                                    <option value="4">建议</option>
+                                                    <option disabled value="5">公告</option>
+                                                    <option disabled value="6">动态</option>
                                                 </select>
                                             </div>
                                             <div class="layui-form-mid layui-word-aux">发表后无法更改专栏</div>
